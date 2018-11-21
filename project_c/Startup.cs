@@ -34,10 +34,13 @@ namespace project_c
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //aanroepen van de DbContext, waarmee de entities kunnen worden opgeroepen
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+
+            //aanroepen van de identity, de current user
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
