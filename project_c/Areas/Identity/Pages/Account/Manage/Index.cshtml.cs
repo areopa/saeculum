@@ -57,10 +57,11 @@ namespace project_c.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [EmailAddress]
+            [Display(Name = "Emailadres")]
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Mobiel")]
             public string PhoneNumber { get; set; }
         }
 
@@ -145,7 +146,7 @@ namespace project_c.Areas.Identity.Pages.Account.Manage
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Uw profiel is geüpdate";
             return RedirectToPage();
         }
 
@@ -173,10 +174,10 @@ namespace project_c.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Bevestig je emailadres",
+                $"Bevestig je account door op <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>deze link</a> te klikken.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Verificatiemail verzonden, gelieve je inbox (of spamfolder) te checken.";
             return RedirectToPage();
         }
     }
