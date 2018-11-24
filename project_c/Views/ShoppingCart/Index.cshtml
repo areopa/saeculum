@@ -1,0 +1,59 @@
+﻿@using project_c.Models;
+@using Microsoft.AspNetCore.Http;
+@using project_c.Controllers;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Winkelwagen</h2>
+
+@{
+    if (ViewBag.Contents != null)
+    {
+        <table border="1">
+            <tr>
+                <th>Titel</th>
+                <th>Prijs</th>
+                <th>Subtotaal</th>
+            </tr>
+            @foreach (var cartItem in ViewBag.Contents)
+            {
+                <tr>
+                    <td>@cartItem.Product.Title</td>
+                    <td>@cartItem.Product.Price</td>
+                    <td>@(string.Format("{0:N0}", cartItem.Product.Price * 1))</td>
+                    <td>
+                        @Html.ActionLink("Verwijderen", "Delete", "ShoppingCart", new { id = cartItem.Product.Id }, null)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">Totaal:</td>
+                <td>
+                    @{
+                        List<CartItem> temp = ViewBag.Contents;
+                        var total = String.Format("{0:N0}", temp.Sum(x => x.Product.Price));
+                    }
+                    @total  EUR
+                </td>
+
+            </tr>
+
+        </table>
+
+        <br />
+        @Html.ActionLink("Doorgaan met winkelen", "Index", "Games")
+        <br />
+        <br />
+
+        <br />
+        @*@Html.ActionLink("Doorgaan", "UserDetailsPage", "Order")*@
+    }
+    else
+    {
+        <br />
+        <h4>Winkelwagen is leeg</h4>
+    }
+}
+
