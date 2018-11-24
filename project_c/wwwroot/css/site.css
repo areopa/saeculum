@@ -1,8 +1,11 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
+    background: url(../css/images/blackbg.png) center fixed no-repeat, url("../css/images/Jirobackground.png") center fixed no-repeat;
+    background-size: 1150px 5000px, 2000px;
     padding-top: 50px;
     padding-bottom: 20px;
+    color: white;
 }
 
 /* Wrapping element */
@@ -34,4 +37,10 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-row-gap: 50px;
 }

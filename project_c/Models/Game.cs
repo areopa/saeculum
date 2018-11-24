@@ -23,6 +23,6 @@ namespace project_c.Models
         //Bedrijf dat de Game geproduceerd heeft
         public string ProducingCompany { get; set; }
         //collectie van orders die horen bij een Game
-        public virtual IEnumerable<GameOrder> Orders { get; set; }
+        public virtual List<GameOrder> Orders { get; set; }
     }
 }

@@ -22,6 +22,6 @@ namespace project_c.Models
         //totale prijs van de bestelling
         public decimal Price { get; set; }
         //collectie van games die horen bij een Order
-        public virtual IEnumerable<GameOrder> Games { get; set; }
+        public virtual List<GameOrder> Games { get; set; }
     }
 }
