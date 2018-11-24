@@ -20,11 +20,11 @@
             @foreach (var cartItem in ViewBag.Contents)
             {
                 <tr>
-                    <td>@cartItem.Product.Title</td>
-                    <td>@cartItem.Product.Price</td>
-                    <td>@(string.Format("{0:N0}", cartItem.Product.Price * 1))</td>
+                    <td>@cartItem.Title</td>
+                    <td>@cartItem.Price</td>
+                    <td>@(string.Format("{0:N0}", cartItem.Price * 1))</td>
                     <td>
-                        @Html.ActionLink("Verwijderen", "Delete", "ShoppingCart", new { id = cartItem.Product.Id }, null)
+                        @Html.ActionLink("Verwijderen", "Delete", "ShoppingCart", new { id = cartItem.Id }, new { cartItem.FindIndex }, null)
                     </td>
                 </tr>
             }
@@ -32,8 +32,8 @@
                 <td colspan="3">Totaal:</td>
                 <td>
                     @{
-                        List<CartItem> temp = ViewBag.Contents;
-                        var total = String.Format("{0:N0}", temp.Sum(x => x.Product.Price));
+                        List<Game> temp = ViewBag.Contents;
+                        var total = String.Format("{0:N0}", temp.Sum(x => x.Price));
                     }
                     @total  EUR
                 </td>

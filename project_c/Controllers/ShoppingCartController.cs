@@ -24,7 +24,7 @@ namespace project_c.Controllers
         public IActionResult Index()
         {
             //tijdelijk opslaan van de inhoud van de cart in een variabele
-            var SessionContents = HttpContext.Session.GetObject<List<CartItem>>(strCart);
+            var SessionContents = HttpContext.Session.GetObject<List<Game>>(strCart);
             //hiermee wordt de inhoud van de session doorgespeeld naar de view
             ViewBag.Contents = SessionContents;
 
@@ -41,19 +41,19 @@ namespace project_c.Controllers
             }
             //als er nog geen ShoppingCart session bestaat moet deze eerst gemaakt worden
             //als deze gemaakt is kan er een game in worden opgeslagen
-            if (HttpContext.Session.GetObject<List<CartItem>>(strCart) == null)
+            if (HttpContext.Session.GetObject<List<Game>>(strCart) == null)
             {
-                List<CartItem> lsCart = new List<CartItem>
+                List<Game> lsCart = new List<Game>
                 {
-                    new CartItem(_context.Games.Find(id))
+                    _context.Games.Find(id)
                 };
                 HttpContext.Session.SetObject(strCart, lsCart);
             }
             //als er al wel een session bestaan, kan de game er aan worden toegevoegd
             else
             {
-                List<CartItem> lsCart = HttpContext.Session.GetObject<List<CartItem>>(strCart);
-                lsCart.Add(new CartItem(_context.Games.Find(id)));
+                List<Game> lsCart = HttpContext.Session.GetObject<List<Game>>(strCart);
+                lsCart.Add(_context.Games.Find(id));
                 HttpContext.Session.SetObject(strCart, lsCart);
             }
 
@@ -63,25 +63,26 @@ namespace project_c.Controllers
         //voordat een item kan worden verwijderd eerst controleren of dit product wel bestaat in de Cart
         //als het product is gevonden wordt de index van de lijst doorgegeven
         //zo weet de delete function op welke index het product wordt verwijderd
-        private int IsExistingCheck(int? id)
+        private int IsExistingCheck(int? id, int index)
         {
-            List<CartItem> lsCart = HttpContext.Session.GetObject<List<CartItem>>(strCart);
+            List<Game> lsCart = HttpContext.Session.GetObject<List<Game>>(strCart);
             for (int i = 0; i < lsCart.Count; i++)
             {
-                if (lsCart[i].Product.Id == id) return i;
+                Game game = lsCart[id];
+                if (lsCart[i].Id == id && lsCart.BinarySearch(game) == index) return i;
             }
             return -1;
         }
 
 
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int? id, int index)
         {
             if (id == null)
             {
                 return NotFound();
             }
             int check = IsExistingCheck(id);
-            List<CartItem> lsCart = HttpContext.Session.GetObject<List<CartItem>>(strCart);
+            List<Game> lsCart = HttpContext.Session.GetObject<List<Game>>(strCart);
             lsCart.RemoveAt(check);
             HttpContext.Session.SetObject(strCart, lsCart);
             return Redirect("https://localhost:44379/ShoppingCart");
