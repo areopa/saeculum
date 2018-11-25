@@ -1,0 +1,11 @@
+﻿@model project_c.Models.DifferentEmail
+
+<h2>Voer hier uw gewenste Emailadres in:</h2>
+<span style="color:black">
+    @using (Html.BeginForm("EmailChanged", "Order", FormMethod.Post))
+    {
+        @Html.TextBoxFor(model => model.Email)
+        @Html.ValidationMessageFor(model => model.Email)
+        <button type="submit">Bevestigen</button>
+    }
+</span>

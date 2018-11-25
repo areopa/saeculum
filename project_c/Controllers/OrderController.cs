@@ -12,6 +12,7 @@ using System.Text;
 using System.Web;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Http;
 
 namespace project_c.Controllers
 {
@@ -20,6 +21,8 @@ namespace project_c.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private string strCart = "CartItem";
+        public const string DifferentEmailBool = "false";
+        public const string DestinationEmail = "";
 
         public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -41,6 +44,24 @@ namespace project_c.Controllers
                 var userId = await _userManager.GetUserIdAsync(user);
                 var userMail = await _userManager.GetEmailAsync(user);
                 ViewBag.Email = userMail;
+            }
+
+            return View();
+        }
+
+        public IActionResult DifferentEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EmailChanged(DifferentEmail model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.Email = model.Email;
+                HttpContext.Session.SetString(DifferentEmailBool, "true");
+                HttpContext.Session.SetString(DestinationEmail, model.Email);
             }
 
             return View();
@@ -78,7 +99,15 @@ namespace project_c.Controllers
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
+            string finalEmail = "";
+            if (HttpContext.Session.GetString(DifferentEmailBool) == "true")
+            {
+                finalEmail = HttpContext.Session.GetString(DestinationEmail);
+            }
+            else
+            {
+                finalEmail = userMail;
+            }
             string allKeys = "";
             foreach (var cart in lsCart)
             {
@@ -91,7 +120,7 @@ namespace project_c.Controllers
                 string gameName = cart.Product.Title;
                 //einde parameters***********************************************
                 //Hier wordt de email verstuurd***********************************************
-                SendEmail(userMail, gameName, gameKey);
+                SendEmail(finalEmail, gameName, gameKey);
             }
             //redirect naar de order
             return Redirect("https://localhost:44379/Order");
