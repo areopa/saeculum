@@ -66,11 +66,8 @@ namespace project_c.Controllers
             var userMail = await _userManager.GetEmailAsync(user);
             ViewBag.Email = userMail;
             var orderPrice = lsCart.Sum(x => x.Product.Price);
-            var productId = 0;
 
-            GameOrder go = new GameOrder();
-            Game product = new Game();
-
+            //dit wordt de inhoud van de toe te voegen order
             Order order = new Order
             {
                 UserId = userId,
@@ -85,26 +82,35 @@ namespace project_c.Controllers
             string allKeys = "";
             foreach (var cart in lsCart)
             {
-                product = _context.Games.Find(cart.Product.Id);
+                //mappen van de relatie tussen games en order
+                AddGames(cart, order);
                 //Hier defineer ik de parameters voor de mail***********************************************
-                string gameKey = product.ToString() + DateTime.Now.ToString();
+                string gameKey = cart.Product.ToString() + DateTime.Now.ToString();
                 gameKey = Crypto.Hash(gameKey);
                 allKeys = allKeys + gameKey + " <br/><br/> ";
-                string gameName = product.Title;
+                string gameName = cart.Product.Title;
                 //einde parameters***********************************************
-                go.Order = order;
-                go.Game = product;
-                _context.GameOrder.Add(go);
-                await _context.SaveChangesAsync();
                 //Hier wordt de email verstuurd***********************************************
                 SendEmail(userMail, gameName, gameKey);
             }
-
-
-
-
-
+            //redirect naar de order
             return Redirect("https://localhost:44379/Order");
+        }
+
+        //functie voor het mappen van de relatie tussen games en order
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async void AddGames(CartItem cartItem, Order order)
+        {
+            GameOrder go = new GameOrder();
+            Game product = new Game();
+
+            product = _context.Games.Find(cartItem.Product.Id);
+            go.Order = order;
+            go.Game = product;
+
+            _context.GameOrder.Add(go);
+            await _context.SaveChangesAsync();
         }
 
 
