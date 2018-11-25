@@ -19,6 +19,7 @@ namespace project_c.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private string strCart = "CartItem";
 
         public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -28,7 +29,7 @@ namespace project_c.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove(strCart);
             return View();
         }
 
@@ -59,7 +60,7 @@ namespace project_c.Controllers
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            List<CartItem> lsCart = HttpContext.Session.GetObject<List<CartItem>>("Cart");
+            List<CartItem> lsCart = HttpContext.Session.GetObject<List<CartItem>>(strCart);
 
             var userId = await _userManager.GetUserIdAsync(user);
             var userMail = await _userManager.GetEmailAsync(user);
@@ -103,7 +104,7 @@ namespace project_c.Controllers
 
 
 
-            return Redirect("https://localhost:44342/Order");
+            return Redirect("https://localhost:44379/Order");
         }
 
 
