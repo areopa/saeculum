@@ -1,56 +1,154 @@
-﻿@model IEnumerable<project_c.Models.Game>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<project_c.Models.Game>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Games</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pegi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProducingCompany)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pegi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProducingCompany)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                <br />
-                <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+
+<div class="col-md-3">
+
+    <form method="get" class="form-inline">
+        <br />
+        Genres:
+        <br />
+        <input type="checkbox" name="filterGenre1" value="@Model.RouteValue["Action"]" />Action
+        <br />
+        <input type="checkbox" name="filterGenre2" value="@Model.RouteValue["Adventure"]" />Adventure
+        <br />
+        <input type="checkbox" name="filterGenre3" value="@Model.RouteValue["Animation"]" />Animation
+        <br />
+        <input type="checkbox" name="filterGenre4" value="@Model.RouteValue["Children"]" />Children
+        <br />
+        <input type="checkbox" name="filterGenre5" value="@Model.RouteValue["Comedy"]" />Comedy
+        <br />
+        <input type="checkbox" name="filterGenre6" value="@Model.RouteValue["Crime"]" />Crime
+        <br />
+        <input type="checkbox" name="filterGenre7" value="@Model.RouteValue["Documentary"]" />Documentary
+        <br />
+        <input type="checkbox" name="filterGenre8" value="@Model.RouteValue["Drama"]" />Drama
+        <br />
+        <input type="checkbox" name="filterGenre9" value="@Model.RouteValue["Fantasy"]" />Fantasy
+        <br />
+        <input type="checkbox" name="filterGenre10" value="@Model.RouteValue["Film-Noir"]" />Film-Noir
+        <br />
+        <input type="checkbox" name="filterGenre11" value="@Model.RouteValue["Horror"]" />Horror
+        <br />
+        <input type="checkbox" name="filterGenre12" value="@Model.RouteValue["Musical"]" />Musical
+        <br />
+        <input type="checkbox" name="filterGenre13" value="@Model.RouteValue["Mystery"]" />Mystery
+        <br />
+        <input type="checkbox" name="filterGenre14" value="@Model.RouteValue["Romance"]" />Romance
+        <br />
+        <input type="checkbox" name="filterGenre15" value="@Model.RouteValue["Sci-Fi"]" />Sci-Fi
+        <br />
+        <input type="checkbox" name="filterGenre16" value="@Model.RouteValue["Thriller"]" />Thriller
+        <br />
+        <input type="checkbox" name="filterGenre17" value="@Model.RouteValue["War"]" />War
+        <br />
+        <input type="checkbox" name="filterGenre18" value="@Model.RouteValue["Western"]" />Western
+        <br />
+        <br />
+        <div class="input-group">
+            PEGI :
+            <br />
+            <input type="radio" name="filterPegi12" value="@Model.RouteValue["12"]" />12+
+            <br />
+            <input type="radio" name="filterPegi13" value="@Model.RouteValue["13"]" />13+
+            <br />
+            <input type="radio" name="filterPegi14" value="@Model.RouteValue["14"]" />14+
+            <br />
+            <input type="radio" name="filterPegi15" value="@Model.RouteValue["15"]" />15+
+            <br />
+            <input type="radio" name="filterPegi16" value="@Model.RouteValue["16"]" />16+
+            <br />
+            <input type="radio" name="filterPegi17" value="@Model.RouteValue["17"]" />17+
+            <br />
+            <input type="radio" name="filterPegi18" value="@Model.RouteValue["18"]" />18+
+        </div>
+        <br />
+        <br />
+        <button type="submit" class="btn btn-info">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filter
+        </button>
+        @*Price range
+            <br />*@
+        @*<input type="range" min="0.00" max="@{string maxPrice = Model.Max(m => m.Price).ToString();}" value="0.00" id="myRange" class="slider" name="filterPrice" />
+            <p>Value: <span id="demo"></span></p>
+            <script>
+                var slider = document.getElementById("myRange");
+                var output = document.getElementById("demo");
+                output.innerHTML = slider.value;
+
+                slider.oninput = function () {
+                    output.innerHTML = this.value;
+                }
+            </script>*@
+
+    </form>
+</div>
+
+<div class="col-md-3">
+    <nav aria-label="Game Page">
+        <vc:pager paging-list="@Model" />
+    </nav>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Pegi)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProducingCompany)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pegi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProducingCompany)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="Game Page">
+        <vc:pager paging-list="@Model" />
+    </nav>
+</div>
