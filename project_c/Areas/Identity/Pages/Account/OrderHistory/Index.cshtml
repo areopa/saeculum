@@ -1,0 +1,60 @@
+﻿@page
+@model IndexModel
+@using project_c.Models
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Bestelgeschiedenis</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datum bestelling
+            </th>
+            <th>
+                Mailadres
+            </th>
+            <th>
+                Prijs
+            </th>
+            <th>
+                Games
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderMail)
+                </td>
+                <td>
+                    € @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @{var gameOrderItems = item.Games;
+                        var gameItems = new List<Game> { };
+                    }
+
+                    @foreach (var thing in gameOrderItems)
+                    {
+                        var singleGame = thing.Game;
+                        gameItems.Add(singleGame);
+                    }
+                    @foreach (var game in gameItems)
+                    {
+                        <p>@game.Title : € @game.Price</p>
+                        <br />
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
