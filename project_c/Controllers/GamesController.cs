@@ -22,7 +22,7 @@ namespace project_c.Controllers
         }
 
         // GET: Games
-        public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi12, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
+        public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
         {
             var games = _context.Games.AsNoTracking()
                 .AsQueryable();
@@ -107,34 +107,38 @@ namespace project_c.Controllers
                 games = games.Where(s => s.Genre.Contains("Western"));
             }
 
-            if (!string.IsNullOrWhiteSpace(filterPegi12))
+            if (!string.IsNullOrWhiteSpace(filterPegi))
             {
-                games = games.Where(s => s.Pegi.ToString().Contains("12"));
+                games = games.Where(s => s.Pegi.ToString().Contains(filterPegi));
             }
-            if (!string.IsNullOrWhiteSpace(filterPegi13))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("13"));
-            }
-            if (!string.IsNullOrWhiteSpace(filterPegi14))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("14"));
-            }
-            if (!string.IsNullOrWhiteSpace(filterPegi15))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("15"));
-            }
-            if (!string.IsNullOrWhiteSpace(filterPegi16))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("16"));
-            }
-            if (!string.IsNullOrWhiteSpace(filterPegi17))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("18"));
-            }
-            if (!string.IsNullOrWhiteSpace(filterPegi18))
-            {
-                games = games.Where(s => s.Pegi.ToString().Contains("18"));
-            }
+            //if (!string.IsNullOrWhiteSpace(filterPegi12))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("12"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi13))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("13"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi14))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("14"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi15))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("15"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi16))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("16"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi17))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("18"));
+            //}
+            //if (!string.IsNullOrWhiteSpace(filterPegi18))
+            //{
+            //    games = games.Where(s => s.Pegi.ToString().Contains("18"));
+            //}
 
 
 
@@ -160,13 +164,14 @@ namespace project_c.Controllers
                 {"filterGenre16" , filterGenre16},
                 {"filterGenre17" , filterGenre17},
                 {"filterGenre18" , filterGenre18},
-                {"filterPegi12" , filterPegi12},
-                {"filterPegi13" , filterPegi13},
-                {"filterPegi14" , filterPegi14},
-                {"filterPegi15" , filterPegi15},
-                {"filterPegi16" , filterPegi16},
-                {"filterPegi17" , filterPegi17},
-                {"filterPegi18" , filterPegi18},
+                {"filterPegi" , filterPegi },
+                {"12" , 12},
+                {"13" , 13},
+                {"14" , 14},
+                {"15" , 15},
+                {"16" , 16},
+                {"17" , 17},
+                {"18" , 18},
             };
 
 
