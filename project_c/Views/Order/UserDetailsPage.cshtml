@@ -3,21 +3,32 @@
     ViewData["Title"] = "UserDetailsPage";
 }
 <h2>Uw Accountsoverzicht voor deze bestelling:</h2>
-@if (User != null)
+@if (ViewBag.Bool == "true")
 {
-    <div>
-        Het Emailadres waar de GameKeys naartoe worden verstuurd:
-        <br />
-        <br />
-        @ViewBag.Email
-        <br />
-        <br />
-        <br />
-        <br />
-        @Html.ActionLink("Of kies een ander Emailadres", "DifferentEmail", "Order")
-    </div>
+<div>
+    Het Emailadres waar de GameKeys naartoe worden verstuurd:
+    <br />
+    <br />
+    @ViewBag.Email
+    <br />
+    <br />
+    <br />
+    <br />
+    @Html.ActionLink("Of kies een ander Emailadres", "DifferentEmail", "Order")
+    <br />
+    <br />
+    @Html.ActionLink("Betalen", "UserPayment", "Order")
+</div>
 }
-<br />
-<br />
-
-@Html.ActionLink("Betalen", "Payment", "Order")
+else
+{
+<div>
+    Je bent niet ingelogd.
+    <br />
+    <br />
+    @Html.ActionLink("Log hier in", "Account/Login", "Identity")
+    <br />
+    <br />
+    @Html.ActionLink("Of ga door als bezoeker en vul een Emailadres in", "DifferentEmail", "Order")
+</div>
+}
