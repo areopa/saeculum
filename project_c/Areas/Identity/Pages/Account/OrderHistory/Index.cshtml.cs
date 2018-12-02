@@ -34,7 +34,8 @@ namespace project_c.Areas.Identity.Pages.Account.OrderHistory
             var userId = user.Id;
 
             Order = await _context.Orders
-                .Include(o => o.ApplicationUser).ToListAsync();
+                .Include(o => o.ApplicationUser)
+                .Where(o => o.ApplicationUser.Id == userId).ToListAsync();
 
             GameOrder = await _context.GameOrder.ToListAsync();
             Game = await _context.Games.ToListAsync();
