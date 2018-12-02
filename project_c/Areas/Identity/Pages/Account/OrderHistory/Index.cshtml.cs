@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,13 @@ namespace project_c.Areas.Identity.Pages.Account.OrderHistory
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public IndexModel(ApplicationDbContext context)
+
+        public IndexModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IList<Order> Order { get; set; }
@@ -25,6 +29,10 @@ namespace project_c.Areas.Identity.Pages.Account.OrderHistory
 
         public async Task OnGetAsync()
         {
+            //var die de user opvraagt
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+
             Order = await _context.Orders
                 .Include(o => o.ApplicationUser).ToListAsync();
 
