@@ -20,6 +20,8 @@ namespace project_c.Data
         public DbSet<Order> Orders { get; set; }
         //dbset voor de relaties tussen games en orders
         public DbSet<GameOrder> GameOrder { get; set; }
+        //dbset voor de favorieten
+        public DbSet<Favorieten> Favorieten { get; set; }
 
         //methode waarmee de database-model gemaakt wordt: ORM, Object Relational Mapper
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +43,14 @@ namespace project_c.Data
                 .HasOne(ma => ma.ApplicationUser)
                 .WithMany(m => m.Orders)
                 .HasForeignKey(ma => ma.UserId);
+
+            //finetunen Favorieten
+            modelBuilder.Entity<Favorieten>()
+                .HasKey(t => t.Id);
+            modelBuilder.Entity<Favorieten>()
+                .HasOne(ma => ma.ApplicationUser)
+                .WithOne(m => m.Favorieten)
+                .HasForeignKey<Favorieten>(ma => ma.UserId);
         }
     }
 }

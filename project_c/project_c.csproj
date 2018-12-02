@@ -13,4 +13,8 @@
     <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Favorieten\" />
+  </ItemGroup>
+
 </Project>
