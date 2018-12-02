@@ -273,7 +273,7 @@ namespace project_c.Controllers
 
             //de body van de email. Dit bevat alle tekst. Hier zitten dus ook de gamekeys bij
             string body = "Dit is de GameKey van de game: " + "<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/>" + "Activeer uw game op de betreffende Platform!" + "<br/><br/>" + "Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
-            string body_gift = "GEFELICITEERD!!<br/><br/>U heeft een gratis GameKey gekregen van een special iemand!<br>De GameKey die u heeft gekregen is:<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/> Activeer uw game op de betreffende Platform! <br/><br/>Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
+            string body_gift = "GEFELICITEERD!!<br/><br/>U heeft een gratis GameKey gekregen van " + User.Identity.Name +"!<br>De GameKey die u heeft gekregen is:<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/> Activeer uw game op de betreffende Platform! <br/><br/>Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
 
             //hier wordt de connectie met onze email gelegd
             var smtp = new SmtpClient
