@@ -155,6 +155,7 @@
                         @if (ViewBag.IsAdmin == "true")
                         {
                             <a asp-action="Edit" asp-controller="Games" asp-route-id="@item.Id">Bewerken</a>
+                            <a asp-action="Delete" asp-controller="Games" asp-route-id="@item.Id">Verwijderen</a>
                         }
                     </td>
                 </tr>

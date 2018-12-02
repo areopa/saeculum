@@ -118,8 +118,10 @@ namespace project_c.Controllers
             //Als er geen gebruiker is, dus je bent niet ingelogd
             if (user == null)
             {
+                var randomUser = await _userManager.FindByEmailAsync("ongeregistreerd@hotmail.com");
+
                 //DEZE var moet worden veranderd naar de ID van de ongeregistreerde user. Deze user moet wel eerst worden aangemaakt handmatig!***
-                var userId = "697e89cc-db68-478e-9137-e4d9620f5de0";
+                var userId = randomUser.Id;
                 //Email moet ook worden aangepast als je dat anders hebt staan in je DB
                 var userMail = "ongeregistreerd@hotmail.com";
                 //viewbag met email wordt vervangen door de ongeregistreerde email
