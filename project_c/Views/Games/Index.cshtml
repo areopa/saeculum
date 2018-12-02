@@ -8,7 +8,10 @@
 
 <h2>Games</h2>
 
-
+@if (ViewBag.IsAdmin == "true")
+{
+    <a asp-action="Create" asp-controller="Games">Game toevoegen aan productbestand</a>
+}
 
 
 <div class="col-md-3">
@@ -141,7 +144,15 @@
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                        @if (ViewBag.IsAdmin == "false")
+                        {
+                            <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                        }
+
+                        @if (ViewBag.IsAdmin == "true")
+                        {
+                            <a asp-action="Edit" asp-controller="Games" asp-route-id="@item.Id">Bewerken</a>
+                        }
                     </td>
                 </tr>
             }

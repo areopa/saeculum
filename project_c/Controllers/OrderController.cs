@@ -119,7 +119,7 @@ namespace project_c.Controllers
             if (user == null)
             {
                 //DEZE var moet worden veranderd naar de ID van de ongeregistreerde user. Deze user moet wel eerst worden aangemaakt handmatig!***
-                var userId = "2a4aff3b-1d4f-4e11-8101-577b1eda19c8";
+                var userId = "697e89cc-db68-478e-9137-e4d9620f5de0";
                 //Email moet ook worden aangepast als je dat anders hebt staan in je DB
                 var userMail = "ongeregistreerd@hotmail.com";
                 //viewbag met email wordt vervangen door de ongeregistreerde email
@@ -279,6 +279,40 @@ namespace project_c.Controllers
             })
                 //Deze functie verstuurt het bericht
                 smtp.Send(message);
+        }
+
+        //Het aanmaken van een Admin Account en een ongeregistreerde gebruiker
+        [NonAction]
+        public async Task CreateAdmin()
+        {
+            //admin gegevens
+            DateTime value = new DateTime(1990, 1, 1);
+            var admin = new ApplicationUser
+            {
+                FirstName = "Admin",
+                FamilyName = "VanJiro",
+                BirthDate = value,
+                UserName = "admin@hotmail.com",
+                Email = "admin@hotmail.com"
+            };
+            var result = await _userManager.CreateAsync(admin, "Administrator1!");
+
+            //ongeregistreerde gebruiker gegevens
+            var unregistered = new ApplicationUser
+            {
+                FirstName = "Ongeregistreerde",
+                FamilyName = "Gebruiker",
+                BirthDate = value,
+                UserName = "ongeregistreerd@hotmail.com",
+                Email = "ongeregistreerd@hotmail.com"
+            };
+            var result2 = await _userManager.CreateAsync(unregistered, "Ongeregistreerd1!");
+        }
+
+        public async Task<IActionResult> Createmissingaccounts()
+        {
+            await CreateAdmin();
+            return Redirect("https://localhost:44379/Home");
         }
 
     }

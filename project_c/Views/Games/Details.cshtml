@@ -51,5 +51,14 @@
 <div>
     <a asp-action="Index">Back to List</a>
     <br />
-    <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@Model.Id" >Toevoegen</a>
+    @if (ViewBag.IsAdmin == "false")
+    {
+        <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@Model.Id">Toevoegen</a>
+    }
+
+    @if (ViewBag.IsAdmin == "true")
+    {
+        <a asp-action="Edit" asp-controller="Games" asp-route-id="@Model.Id">Bewerken</a>
+    }
+
 </div>
