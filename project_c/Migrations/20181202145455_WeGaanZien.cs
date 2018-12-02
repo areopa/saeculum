@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace project_c.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class WeGaanZien : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -175,6 +175,24 @@ namespace project_c.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Favorieten",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    GameList = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorieten", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Favorieten_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -293,6 +311,9 @@ namespace project_c.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Favorieten");
 
             migrationBuilder.DropTable(
                 name: "GameOrder");

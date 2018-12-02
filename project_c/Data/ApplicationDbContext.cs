@@ -46,7 +46,7 @@ namespace project_c.Data
 
             //finetunen Favorieten
             modelBuilder.Entity<Favorieten>()
-                .HasKey(t => t.Id);
+                .HasKey(t => t.UserId);
             modelBuilder.Entity<Favorieten>()
                 .HasOne(ma => ma.ApplicationUser)
                 .WithOne(m => m.Favorieten)

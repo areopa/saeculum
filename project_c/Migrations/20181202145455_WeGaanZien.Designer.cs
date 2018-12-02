@@ -10,8 +10,8 @@ using project_c.Data;
 namespace project_c.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181202141540_Favorieten")]
-    partial class Favorieten
+    [Migration("20181202145455_WeGaanZien")]
+    partial class WeGaanZien
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,19 +194,11 @@ namespace project_c.Migrations
 
             modelBuilder.Entity("project_c.Models.Favorieten", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserId");
 
                     b.Property<string>("GameList");
 
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasKey("UserId");
 
                     b.ToTable("Favorieten");
                 });
@@ -323,7 +315,8 @@ namespace project_c.Migrations
                 {
                     b.HasOne("project_c.Data.ApplicationUser", "ApplicationUser")
                         .WithOne("Favorieten")
-                        .HasForeignKey("project_c.Models.Favorieten", "UserId");
+                        .HasForeignKey("project_c.Models.Favorieten", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("project_c.Models.GameOrder", b =>
