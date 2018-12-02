@@ -25,6 +25,7 @@ namespace project_c.Controllers
         public const string DifferentEmailBool = "false";
         //deze sessionvariabele houdt bij welk emailadres moet worden gebruikt voor het versturen van de keys
         public const string DestinationEmail = "";
+        public const string isGiftBool = "false";
 
         public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -71,8 +72,12 @@ namespace project_c.Controllers
         }
 
         //actionresult als je een ander Email wilt invullen of als je niet bent ingelogd
-        public IActionResult DifferentEmail()
+        public IActionResult DifferentEmail(string isGift)
         {
+            if (isGift == "true")
+            {
+                HttpContext.Session.SetString(isGiftBool, "true");
+            }
             return View();
         }
 
@@ -251,9 +256,22 @@ namespace project_c.Controllers
             var fromEmailPassword = "wachtwoord1!";
             //subject van de email
             string subject = "Uw GAMEKEY!";
+            string subject_gift = "Uw CADEAU GAMEKEY!";
+
+            //if(HttpContext.Session.GetString(isGiftBool) == "true")
+            //{
+            //    string header = "Uw CADEAU GAMEKEY!";
+            //    string mailbody = "GEFELICITEERD!!<br/><br/>U heeft een gratis GameKey gekregen van een special iemand!<br>De GameKey die u heeft gekregen is:<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/> Activeer uw game op de betreffende Platform! <br/><br/>Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
+            //}
+            //else
+            //{
+            //    string header = "Uw GAMEKEY!";
+            //    string mailbody = "Dit is de GameKey van de game: " + "<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/>" + "Activeer uw game op de betreffende Platform!" + "<br/><br/>" + "Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
+            //}
 
             //de body van de email. Dit bevat alle tekst. Hier zitten dus ook de gamekeys bij
-            string body = "Dit is de GameKey van de game: " + "<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/>" + "Activeer uw game op de betreffende Platform!" + "<br/><br/>" + "Veel speelplezier" + "<br/><br/><br/>" + "Jiro WebShop";
+            string body = "Dit is de GameKey van de game: " + "<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/>" + "Activeer uw game op de betreffende Platform!" + "<br/><br/>" + "Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
+            string body_gift = "GEFELICITEERD!!<br/><br/>U heeft een gratis GameKey gekregen van een special iemand!<br>De GameKey die u heeft gekregen is:<br/><br/>" + gameName + "<br/>" + gameKey + "<br/><br/><br/> Activeer uw game op de betreffende Platform! <br/><br/>Wij wensen u veel speelplezier!<br/><br/><br/>~Webshop JIRO";
 
             //hier wordt de connectie met onze email gelegd
             var smtp = new SmtpClient
@@ -267,18 +285,39 @@ namespace project_c.Controllers
                 Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
             };
 
-            //hier wordt het bericht gevormd door de afzender en ontvanger als argument door te geven
-            using (var message = new MailMessage(fromEmail, toEmail)
+
+            if(HttpContext.Session.GetString(isGiftBool) == "true")
             {
-                //subject van de message wordt ingevoerd zoals eerder aangegeven. Dit kan eventueel hergebruikt worden bij andere email functies**
-                Subject = subject,
-                //body wordt overgenomen net als hierboven subject
-                Body = body,
-                //Dit zorgt ervoor dat we de <br/> kunnen gebruiken om een regel lager te typen etc. Andere html is eventueel ook mogelijk.
-                IsBodyHtml = true
-            })
-                //Deze functie verstuurt het bericht
-                smtp.Send(message);
+                //hier wordt het bericht gevormd door de afzender en ontvanger als argument door te geven
+                using (var message = new MailMessage(fromEmail, toEmail)
+                {
+                    //subject van de message wordt ingevoerd zoals eerder aangegeven. Dit kan eventueel hergebruikt worden bij andere email functies**
+                    Subject = subject_gift,
+                    //body wordt overgenomen net als hierboven subject
+                    Body = body_gift,
+                    //Dit zorgt ervoor dat we de <br/> kunnen gebruiken om een regel lager te typen etc. Andere html is eventueel ook mogelijk.
+                    IsBodyHtml = true
+                })
+                    //Deze functie verstuurt het bericht
+                    smtp.Send(message);
+            }
+            else
+            {
+                //hier wordt het bericht gevormd door de afzender en ontvanger als argument door te geven
+                using (var message = new MailMessage(fromEmail, toEmail)
+                {
+                    //subject van de message wordt ingevoerd zoals eerder aangegeven. Dit kan eventueel hergebruikt worden bij andere email functies**
+                    Subject = subject,
+                    //body wordt overgenomen net als hierboven subject
+                    Body = body,
+                    //Dit zorgt ervoor dat we de <br/> kunnen gebruiken om een regel lager te typen etc. Andere html is eventueel ook mogelijk.
+                    IsBodyHtml = true
+                })
+                    //Deze functie verstuurt het bericht
+                    smtp.Send(message);
+            }
+
+
         }
 
     }
