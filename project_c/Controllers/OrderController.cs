@@ -287,8 +287,9 @@ namespace project_c.Controllers
         [NonAction]
         public async Task CreateAdmin()
         {
-            //admin gegevens
+            //binding van de attributen voor de admin
             DateTime value = new DateTime(1990, 1, 1);
+            
             var admin = new ApplicationUser
             {
                 FirstName = "Admin",
@@ -297,9 +298,10 @@ namespace project_c.Controllers
                 UserName = "admin@hotmail.com",
                 Email = "admin@hotmail.com"
             };
+            //Hieronder staat het wachtwoord voor de admin user ***
             var result = await _userManager.CreateAsync(admin, "Administrator1!");
 
-            //ongeregistreerde gebruiker gegevens
+            //binding van de attributen voor de ongeregistreerde
             var unregistered = new ApplicationUser
             {
                 FirstName = "Ongeregistreerde",
@@ -308,11 +310,14 @@ namespace project_c.Controllers
                 UserName = "ongeregistreerd@hotmail.com",
                 Email = "ongeregistreerd@hotmail.com"
             };
+            //Hieronder staat het wachtwoord voor de ongeregistreerde user ***
             var result2 = await _userManager.CreateAsync(unregistered, "Ongeregistreerd1!");
         }
 
+        //om deze functie te runnen ga je naar /order/Createmissingaccounts *** als je wordt verwezen naar 'home' dan heeft het gewerkt
         public async Task<IActionResult> Createmissingaccounts()
         {
+            //het uitvoeren van de createadmin functie die admin en ongeregistreerde gebruiker
             await CreateAdmin();
             return Redirect("https://localhost:44379/Home");
         }
