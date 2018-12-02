@@ -29,8 +29,13 @@ namespace project_c.Areas.Identity.Pages.Account.OrderHistory
 
         public async Task OnGetAsync()
         {
+            //var die de user opvraagt
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+
             Order = await _context.Orders
-                .Include(o => o.ApplicationUser).ToListAsync();
+                .Include(o => o.ApplicationUser)
+                .Where(o => o.ApplicationUser.Id == userId).ToListAsync();
 
             GameOrder = await _context.GameOrder.ToListAsync();
             Game = await _context.Games.ToListAsync();

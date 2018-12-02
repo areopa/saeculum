@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
@@ -15,15 +17,19 @@ namespace project_c.Controllers
     public class GamesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GamesController(ApplicationDbContext context)
+        public GamesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Games
+        
         public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
         {
+            await AdminCheck();
             var games = _context.Games.AsNoTracking()
                 .AsQueryable();
 
@@ -196,6 +202,138 @@ namespace project_c.Controllers
             }
 
             return View(game);
+        }
+
+        public async Task<ActionResult> Create()
+        {
+            await AdminCheck();
+            if(ViewBag.IsAdmin == "true")
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("https://localhost:44379/Games");
+            }
+            
+        }
+
+        // GET: GamesAdmin/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Games
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
+        }
+
+        // POST: GamesAdmin/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var game = await _context.Games.FindAsync(id);
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: GamesAdmin/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+            return View(game);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,Pegi,Description,Price,ProducingCompany")] Game game)
+        {
+            if (id != game.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(game);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GameExists(game.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(game);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind("Title,Genre,Pegi,Description,Price,ProducingCompany")] Game game)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Games.Add(game);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(game);
+        }
+
+        [NonAction]
+        public async Task AdminCheck()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var userMail = await _userManager.GetEmailAsync(user);
+                if (userMail == "admin@hotmail.com")
+                {
+                    ViewBag.IsAdmin = "true";
+                }
+                else
+                {
+                    ViewBag.IsAdmin = "false";
+                }
+            }
+            else
+            {
+                ViewBag.IsAdmin = "false";
+            }
+        }
+        private bool GameExists(int id)
+        {
+            return _context.Games.Any(e => e.Id == id);
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿@model project_c.Models.Game
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h2>Details</h2>
+<h2>Verwijderen</h2>
 
+<h3>Weet je zeker dat je deze game wilt verwijderen?</h3>
 <div>
-    <h4>Game</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -47,19 +48,10 @@
             @Html.DisplayFor(model => model.ProducingCompany)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-    <br />
-    @if (ViewBag.IsAdmin == "false")
-    {
-        <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@Model.Id">Toevoegen</a>
-    }
-
-    @if (ViewBag.IsAdmin == "true")
-    {
-        <a asp-action="Edit" asp-controller="Games" asp-route-id="@Model.Id">Bewerken</a>
-        <a asp-action="Delete" asp-controller="Games" asp-route-id="@Model.Id">Verwijderen</a>
-    }
-
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Verwijderen" class="btn btn-default" /> |
+        <a asp-action="Index">Terug naar de lijst</a>
+    </form>
 </div>
