@@ -1,0 +1,44 @@
+﻿@using project_c.Models;
+@using Microsoft.AspNetCore.Http;
+@using project_c.Controllers;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Favorieten</h2>
+
+@{
+    if (ViewBag.Favourites != null)
+    {
+        <table border="1">
+            <tr>
+                <th>Titel</th>
+                <th>Prijs</th>
+            </tr>
+            @foreach (var cartItem in ViewBag.Favourites)
+            {
+                <tr>
+                    <td>@cartItem.Product.Title</td>
+                    <td>@cartItem.Product.Price</td>
+                    <td><a asp-action="Details" asp-controller="Games" asp-route-id="@cartItem.Product.Id">Details</a></td>
+                    <td>
+                        @Html.ActionLink("Verwijderen", "Delete", "Favourites", new { id = cartItem.Product.Id }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        @Html.ActionLink("Doorgaan met winkelen", "Index", "Games")
+        <br />
+        <br />
+
+    }
+    else
+    {
+        <br />
+        <h4>Je hebt nog geen favorieten!</h4>
+    }
+}
+

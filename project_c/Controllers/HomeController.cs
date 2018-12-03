@@ -26,7 +26,7 @@ namespace project_c.Controllers
         {
             ViewData["Message"] = "Onze contactgegevens.";
 
-            return View();
+            return Redirect("https://localhost:44379/Favourites");
         }
 
         public IActionResult Privacy()

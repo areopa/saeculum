@@ -148,15 +148,16 @@
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                         @if (ViewBag.IsAdmin == "false")
-                        {
-                            <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
-                        }
+    {
+                    <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen aan winkelwagen</a>
+                    <a asp-action="AddToFavourites" asp-controller="Favourites" asp-route-id="@item.Id">Toevoegen aan favorieten</a>
+}
 
                         @if (ViewBag.IsAdmin == "true")
-                        {
-                            <a asp-action="Edit" asp-controller="Games" asp-route-id="@item.Id">Bewerken</a>
-                            <a asp-action="Delete" asp-controller="Games" asp-route-id="@item.Id">Verwijderen</a>
-                        }
+    {
+                    <a asp-action="Edit" asp-controller="Games" asp-route-id="@item.Id">Bewerken</a>
+                    <a asp-action="Delete" asp-controller="Games" asp-route-id="@item.Id">Verwijderen</a>
+}
                     </td>
                 </tr>
             }
