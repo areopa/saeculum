@@ -30,19 +30,24 @@ namespace project_c.Controllers
 
             Game Game = _context.Games.Find(id);
             string userId = user.Id;
-            string stringList = OmzettenNaarString(Game.Id.ToString());
+            int gameToAdd = Game.Id;
             bool checkUser = FavorietenExists(userId);
 
             Favorieten Favorietenlijst = new Favorieten
             {
                 UserId = userId,
-                GameList = stringList
+                GameList = "1,2"
             };
 
             if (checkUser)
             {
                 Favorieten oldOrder = _context.Favorieten.Find(userId);
 
+
+                List<int> favoArray = OmzettenNaarArray(oldOrder.GameList);
+                favoArray.Append(gameToAdd);
+                string stringList = OmzettenNaarString(favoArray);
+                
                 oldOrder.GameList = stringList;
 
                 _context.Update(oldOrder);
@@ -63,21 +68,28 @@ namespace project_c.Controllers
             return _context.Favorieten.Any(e => e.UserId == userId);
         }
 
+        private bool ItemExists(int game)
+        {
+            return false;
+        }
+
         public static bool CheckUser()
         {
             bool check = false;
             return check;
         }
 
-        public static string OmzettenNaarString(string addedId)
+        public static string OmzettenNaarString(List<int> stringListToAdd)
         {
-            string lijst = addedId;
+
+            string lijst = string.Join(",", stringListToAdd);
             return lijst;
         }
 
-        public static List<int> OmzettenNaarArray()
+        public static List<int> OmzettenNaarArray(string arrayToAdd)
         {
-            return new List<int> { 1, 2, 4 };
+            var readableArray = arrayToAdd.Split(',').Select(Int32.Parse).ToList();
+            return readableArray;
         }
 
         // GET: Favorieten
