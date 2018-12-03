@@ -30,7 +30,7 @@ namespace project_c.Controllers
 
             Game Game = _context.Games.Find(id);
             string userId = user.Id;
-            string stringList = OmzettenNaarString();
+            string stringList = OmzettenNaarString(Game.Id.ToString());
             bool checkUser = FavorietenExists(userId);
 
             Favorieten Favorietenlijst = new Favorieten
@@ -69,9 +69,9 @@ namespace project_c.Controllers
             return check;
         }
 
-        public static string OmzettenNaarString()
+        public static string OmzettenNaarString(string addedId)
         {
-            string lijst = "4,5,6";
+            string lijst = addedId;
             return lijst;
         }
 

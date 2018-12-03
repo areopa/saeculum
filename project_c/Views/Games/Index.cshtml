@@ -142,7 +142,7 @@
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
-                        <a asp-action="AddFavoriet" asp-controller="Favorieten">Favoriet</a>
+                        <a asp-action="AddFavoriet" asp-controller="Favorieten" asp-route-id="@item.Id">Favoriet</a>
                     </td>
                 </tr>
             }
