@@ -10,8 +10,8 @@ using project_c.Data;
 namespace project_c.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181125111510_InitDb")]
-    partial class InitDb
+    [Migration("20181202145455_WeGaanZien")]
+    partial class WeGaanZien
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,6 +192,17 @@ namespace project_c.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("project_c.Models.Favorieten", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("GameList");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Favorieten");
+                });
+
             modelBuilder.Entity("project_c.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -297,6 +308,14 @@ namespace project_c.Migrations
                     b.HasOne("project_c.Data.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("project_c.Models.Favorieten", b =>
+                {
+                    b.HasOne("project_c.Data.ApplicationUser", "ApplicationUser")
+                        .WithOne("Favorieten")
+                        .HasForeignKey("project_c.Models.Favorieten", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
