@@ -51,7 +51,7 @@ namespace project_c.Controllers
             //id van de game die moet worden toegevoegd aan favorieten
             var gameId = gameToAdd.Id;
 
-            var userExists = _context.Favorieten.Any(UserId => UserId.Equals(userId));
+            var userExists = _context.Favorieten.Any(e => e.UserId.Equals(userId));
 
             if (userExists)
             {
