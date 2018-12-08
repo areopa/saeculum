@@ -57,10 +57,12 @@ namespace project_c.Controllers
             {
                 var currentUserFavorieten = await _context.Favorieten.FindAsync(userId);
                 var currentFavorietenLijst = DeserializeByteToIntList(currentUserFavorieten.GameList);
+
                 currentFavorietenLijst.Add(gameId);
                 var listToBeAdded = SerializeIntListToByte(currentFavorietenLijst);
+
                 currentUserFavorieten.GameList = listToBeAdded;
-                _context.Favorieten.Update(currentUserFavorieten);
+                _context.Update(currentUserFavorieten);
                 await _context.SaveChangesAsync();
             }
             else
@@ -77,37 +79,6 @@ namespace project_c.Controllers
                 await _context.Favorieten.AddAsync(favorietenToBeAdded);
                 await _context.SaveChangesAsync();
             }
-
-
-
-
-
-            List<int> GameList = new List<int>
-            {
-                gameId
-            };
-
-            //MyObject obj = new MyObject();
-            byte[] bytes;
-            IFormatter formatter = new BinaryFormatter();
-            using (MemoryStream stream = new MemoryStream())
-            {
-                formatter.Serialize(stream, GameList);
-                bytes = stream.ToArray();
-            }
-
-            Favorieten NewFavorieten = new Favorieten
-            {
-                UserId = userId,
-                ApplicationUser = user,
-                GameList = bytes
-            };
-
-            _context.Favorieten.Add(NewFavorieten);
-            await _context.SaveChangesAsync();
-
-
-
 
             return Redirect("https://localhost:44379/Games");
         }
