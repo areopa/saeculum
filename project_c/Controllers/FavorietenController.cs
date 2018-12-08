@@ -11,6 +11,7 @@ using project_c.Models;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace project_c.Controllers
 {
@@ -28,14 +29,43 @@ namespace project_c.Controllers
         //add to favorieten functie
         public async Task<IActionResult> AddToFavorieten(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //game die moet worden toegevoegd aan favorieten
+            var gameToAdd = await _context.Games
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (gameToAdd == null)
+            {
+                return NotFound();
+            }
+
             //huidige user
             var user = await _userManager.GetUserAsync(User);
             //userId van de huidige user
             var userId = user.Id;
-            //game die moet worden toegevoegd aan favorieten
-            Game gameToAdd = await _context.Games.FindAsync(id);
+            
             //id van de game die moet worden toegevoegd aan favorieten
-            int gameId = gameToAdd.Id;
+            var gameId = gameToAdd.Id;
+
+            var userExists = _context.Favorieten.Any(UserId => UserId.Equals(userId));
+
+            if (userExists)
+            {
+                var currentUserFavorieten = await _context.Favorieten.FindAsync(userId);
+                var currentFavorietenLijst = DeserializeByteToIntList(currentUserFavorieten.GameList);
+                currentFavorietenLijst.Add(gameId);
+                var listToBeAdded = SerializeIntListToByte(currentFavorietenLijst);
+                //_context.Favorieten.AsyncUpdate(currentFavorietenLijst);
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
 
             List<int> GameList = new List<int>
             {
@@ -65,6 +95,31 @@ namespace project_c.Controllers
 
 
             return Redirect("https://localhost:44379/Games");
+        }
+
+        public virtual Byte[] SerializeIntListToByte(List<int> intList)
+        {
+            byte[] bytes;
+            IFormatter formatter = new BinaryFormatter();
+            using (MemoryStream stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, intList);
+                bytes = stream.ToArray();
+            }
+
+            return bytes;
+        }
+
+        public virtual List<int> DeserializeByteToIntList(Byte[] serializedList)
+        {
+            List<int> intList = null;
+            IFormatter formatter = new BinaryFormatter();
+            using (MemoryStream stream = new MemoryStream(serializedList))
+            {
+                
+                intList = (formatter.Deserialize(stream) as List<int>);
+            }
+            return intList;
         }
 
 
