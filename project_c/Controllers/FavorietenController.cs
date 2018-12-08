@@ -34,10 +34,12 @@ namespace project_c.Controllers
             var userId = user.Id;
             //game die moet worden toegevoegd aan favorieten
             Game gameToAdd = await _context.Games.FindAsync(id);
+            //id van de game die moet worden toegevoegd aan favorieten
+            int gameId = gameToAdd.Id;
 
-            List<Game> GameList = new List<Game>
+            List<int> GameList = new List<int>
             {
-                gameToAdd
+                gameId
             };
 
             //MyObject obj = new MyObject();
