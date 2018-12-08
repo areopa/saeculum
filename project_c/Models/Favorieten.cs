@@ -6,10 +6,11 @@ using project_c.Data;
 
 namespace project_c.Models
 {
+    
     public class Favorieten
     {
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public Byte[] Favorietenlijst { get; set; }
+        public Byte[] GameList { get; set; }
     }
 }

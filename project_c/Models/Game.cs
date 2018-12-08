@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace project_c.Models
 {
+    [Serializable]
     //entitymodel voor de game, het product
     public class Game
     {

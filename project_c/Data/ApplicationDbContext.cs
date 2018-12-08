@@ -45,10 +45,12 @@ namespace project_c.Data
                 .HasForeignKey(ma => ma.UserId);
 
             //One <> Many relatie tussen ApplciationUser en Order
-            modelBuider.Entity<Favorieten>()
+            modelBuilder.Entity<Favorieten>()
+                .HasKey(t => t.UserId);
+            modelBuilder.Entity<Favorieten>()
                 .HasOne(ma => ma.ApplicationUser)
-                .WithOne()
-                .HasForeignKey
+                .WithOne(m => m.Favorieten)
+                .HasForeignKey<Favorieten>(ma => ma.UserId);
         }
     }
 }

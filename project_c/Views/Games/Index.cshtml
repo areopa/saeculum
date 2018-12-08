@@ -150,6 +150,7 @@
                         @if (ViewBag.IsAdmin == "false")
                         {
                             <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                            <a asp-action="AddToFavorieten" asp-controller="Favorieten" asp-route-id="@item.Id">favoriet</a>
                         }
 
                         @if (ViewBag.IsAdmin == "true")
