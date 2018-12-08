@@ -59,7 +59,22 @@ namespace project_c.Controllers
                 var currentFavorietenLijst = DeserializeByteToIntList(currentUserFavorieten.GameList);
                 currentFavorietenLijst.Add(gameId);
                 var listToBeAdded = SerializeIntListToByte(currentFavorietenLijst);
-                //_context.Favorieten.AsyncUpdate(currentFavorietenLijst);
+                currentUserFavorieten.GameList = listToBeAdded;
+                _context.Favorieten.Update(currentUserFavorieten);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                List<int> newGameList = new List<int> { gameId };
+                var newGameListSerialized = SerializeIntListToByte(newGameList);
+                
+                Favorieten favorietenToBeAdded = new Favorieten
+                {
+                    UserId = userId,
+                    ApplicationUser = user,
+                    GameList = newGameListSerialized
+                };
+                await _context.Favorieten.AddAsync(favorietenToBeAdded);
                 await _context.SaveChangesAsync();
             }
 
