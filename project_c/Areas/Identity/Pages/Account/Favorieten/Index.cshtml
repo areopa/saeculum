@@ -1,12 +1,11 @@
 ﻿@page
-@model project_c.Areas.Identity.Pages.Account.Favorieten.IndexModel
+@model IndexModel
+@using project_c.Models
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Favorieten</h2>
-
-<div class="col-md-3">
     <table class="table">
         <thead>
             <tr>
@@ -48,12 +47,11 @@
                         @Html.DisplayFor(modelItem => item.ProducingCompany)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
-                        <a asp-action="AddToFavorieten" asp-controller="Favorieten" asp-route-id="@item.Id">favoriet</a>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="ShoppingCart" asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
+

@@ -47,19 +47,16 @@ namespace project_c.Controllers
             var user = await _userManager.GetUserAsync(User);
             //userId van de huidige user
             var userId = user.Id;
-            
-            //id van de game die moet worden toegevoegd aan favorieten
-            var gameId = gameToAdd.Id;
 
             var userExists = _context.Favorieten.Any(e => e.UserId.Equals(userId));
 
             if (userExists)
             {
                 var currentUserFavorieten = await _context.Favorieten.FindAsync(userId);
-                var currentFavorietenLijst = DeserializeByteToIntList(currentUserFavorieten.GameList);
+                var currentFavorietenLijst = DeserializeByteToGameList(currentUserFavorieten.GameList);
 
-                currentFavorietenLijst.Add(gameId);
-                var listToBeAdded = SerializeIntListToByte(currentFavorietenLijst);
+                currentFavorietenLijst.Add(gameToAdd);
+                var listToBeAdded = SerializeGameListToByte(currentFavorietenLijst);
 
                 currentUserFavorieten.GameList = listToBeAdded;
                 _context.Update(currentUserFavorieten);
@@ -67,8 +64,8 @@ namespace project_c.Controllers
             }
             else
             {
-                List<int> newGameList = new List<int> { gameId };
-                var newGameListSerialized = SerializeIntListToByte(newGameList);
+                List<Game> newGameList = new List<Game> { gameToAdd };
+                var newGameListSerialized = SerializeGameListToByte(newGameList);
                 
                 Favorieten favorietenToBeAdded = new Favorieten
                 {
@@ -83,29 +80,28 @@ namespace project_c.Controllers
             return Redirect("https://localhost:44379/Games");
         }
 
-        public virtual Byte[] SerializeIntListToByte(List<int> intList)
+        public static Byte[] SerializeGameListToByte(List<Game> gameList)
         {
             byte[] bytes;
             IFormatter formatter = new BinaryFormatter();
             using (MemoryStream stream = new MemoryStream())
             {
-                formatter.Serialize(stream, intList);
+                formatter.Serialize(stream, gameList);
                 bytes = stream.ToArray();
             }
 
             return bytes;
         }
 
-        public virtual List<int> DeserializeByteToIntList(Byte[] serializedList)
+        public static List<Game> DeserializeByteToGameList(Byte[] serializedList)
         {
-            List<int> intList = null;
+            List<Game> gameList = null;
             IFormatter formatter = new BinaryFormatter();
             using (MemoryStream stream = new MemoryStream(serializedList))
             {
-                
-                intList = (formatter.Deserialize(stream) as List<int>);
+                gameList = (formatter.Deserialize(stream) as List<Game>);
             }
-            return intList;
+            return gameList;
         }
 
 

@@ -26,12 +26,10 @@ namespace project_c.Areas.Identity.Pages.Account.Favorieten
         }
 
 
-
         public IList<Game> GamesIdList { get; set; }
 
         public async Task OnGetAsync()
         {
-            List<int> GamesId;
             var user = await _userManager.GetUserAsync(User);
             var Favorieten = await _context.Favorieten
                             .FindAsync(user.Id);
@@ -39,26 +37,18 @@ namespace project_c.Areas.Identity.Pages.Account.Favorieten
             var GameList = Favorieten.GameList;
 
 
-            GamesId = DeserializeByteToIntList(Favorieten.GameList);
-
-            foreach (var thing in GamesId)
-            {
-                var value = thing;
-                GamesIdList.Add(await _context.Games.FindAsync(value));
-            }
-            
+            GamesIdList = DeserializeByteToGameList(Favorieten.GameList);
         }
 
-        public virtual List<int> DeserializeByteToIntList(Byte[] serializedList)
+        public static List<Game> DeserializeByteToGameList(Byte[] serializedList)
         {
-            List<int> intList = null;
+            List<Game> gameList = null;
             IFormatter formatter = new BinaryFormatter();
             using (MemoryStream stream = new MemoryStream(serializedList))
             {
-
-                intList = (formatter.Deserialize(stream) as List<int>);
+                gameList = (formatter.Deserialize(stream) as List<Game>);
             }
-            return intList;
+            return gameList;
         }
     }
 }
