@@ -60,15 +60,25 @@ namespace project_c.Controllers
                 //favorietenlijst van de user (deserialized)
                 var userFavorietenlijst = DeserializeByteToGameList(userFavorieten.GameList);
 
-                //toevoegen van de een game aan de deserialized GameList
-                userFavorietenlijst.Add(gameToAdd);
-                //serializen van de nieuwe favorietenlijst
-                var newList = SerializeGameListToByte(userFavorietenlijst);
-                //assignment van de nieuwe serialized list aan de favorieten class van de user
-                userFavorieten.GameList = newList;
-                //toevoegen van de updated favorietenclass aan de db
-                _context.Update(userFavorieten);
-                await _context.SaveChangesAsync();
+                var favorietToFind = userFavorietenlijst.Find(p => p.Id == id);
+
+                if (favorietToFind != null)
+                {
+                    return Redirect("https://localhost:44379/Identity/Account/Favorieten");
+                }
+
+                else
+                {
+                    //toevoegen van de een game aan de deserialized GameList
+                    userFavorietenlijst.Add(gameToAdd);
+                    //serializen van de nieuwe favorietenlijst
+                    var newList = SerializeGameListToByte(userFavorietenlijst);
+                    //assignment van de nieuwe serialized list aan de favorieten class van de user
+                    userFavorieten.GameList = newList;
+                    //toevoegen van de updated favorietenclass aan de db
+                    _context.Update(userFavorieten);
+                    await _context.SaveChangesAsync();
+                }
             }
             //nieuwe favorietenlijst maken
             else
@@ -89,7 +99,7 @@ namespace project_c.Controllers
                 await _context.Favorieten.AddAsync(favorietenToBeAdded);
                 await _context.SaveChangesAsync();
             }
-            return Redirect("https://localhost:44379/Games");
+            return Redirect("https://localhost:44379/Identity/Account/Favorieten");
         }
 
         public async Task<IActionResult> RemoveFavoriet(int? id)
