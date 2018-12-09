@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +33,7 @@ namespace project_c.Controllers
         public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
         {
             await AdminCheck();
+            //await FavorietCheck();
             var games = _context.Games.AsNoTracking()
                 .AsQueryable();
 
@@ -181,7 +185,6 @@ namespace project_c.Controllers
             };
 
 
-
             return View(model);
         
     }
@@ -309,7 +312,7 @@ namespace project_c.Controllers
 
             return View(game);
         }
-
+        //functie waarmee gecheckt wordt of er een admin ingelogd is voor de weergave van specifieke knoppen
         [NonAction]
         public async Task AdminCheck()
         {
@@ -331,6 +334,38 @@ namespace project_c.Controllers
                 ViewBag.IsAdmin = "false";
             }
         }
+        ////checkt of een game in de favorietenlijst staat of niet
+        //[NonAction]
+        //public async Task FavorietCheck()
+        //{
+        //    List<Game> gameList = null;
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user != null)
+        //    {
+        //        Favorieten favorietenClass = null;
+        //        favorietenClass = await _context.Favorieten.FindAsync(user.Id);
+        //        var favorietenLijst = DeserializeByteToGameList(favorietenClass.GameList);
+        //        ViewBag.IsFavoriet = favorietenLijst;
+        //        //var dinges = _context.Favorieten.Contains(user);
+        //    }
+        //    else
+        //    {
+        //        ViewBag.IsFavoriet = gameList;
+        //    }
+        //}
+
+        ////fucntie waarmee een bytestring wordt omgezet in een GameList
+        //public static List<Game> DeserializeByteToGameList(Byte[] serializedList)
+        //{
+        //    List<Game> gameList = null;
+        //    IFormatter formatter = new BinaryFormatter();
+        //    using (MemoryStream stream = new MemoryStream(serializedList))
+        //    {
+        //        gameList = (formatter.Deserialize(stream) as List<Game>);
+        //    }
+        //    return gameList;
+        //}
+
         private bool GameExists(int id)
         {
             return _context.Games.Any(e => e.Id == id);

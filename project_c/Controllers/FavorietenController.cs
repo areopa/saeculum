@@ -29,6 +29,7 @@ namespace project_c.Controllers
         //add to favorieten functie
         public async Task<IActionResult> AddToFavorieten(int? id)
         {
+            //nullexception voor de id
             if (id == null)
             {
                 return NotFound();
@@ -37,7 +38,7 @@ namespace project_c.Controllers
             //game die moet worden toegevoegd aan favorieten
             var gameToAdd = await _context.Games
                 .FirstOrDefaultAsync(m => m.Id == id);
-
+            //nullexception voor de game
             if (gameToAdd == null)
             {
                 return NotFound();
@@ -48,38 +49,98 @@ namespace project_c.Controllers
             //userId van de huidige user
             var userId = user.Id;
 
+            //check (bool) om te zien of er een al een favorietenlijst bestaat van een user
             var userExists = _context.Favorieten.Any(e => e.UserId.Equals(userId));
 
+            //game toevoegen aan een bestaande favorietenlijst
             if (userExists)
             {
-                var currentUserFavorieten = await _context.Favorieten.FindAsync(userId);
-                var currentFavorietenLijst = DeserializeByteToGameList(currentUserFavorieten.GameList);
+                //favorietenclass van de user
+                var userFavorieten = await _context.Favorieten.FindAsync(userId);
+                //favorietenlijst van de user (deserialized)
+                var userFavorietenlijst = DeserializeByteToGameList(userFavorieten.GameList);
 
-                currentFavorietenLijst.Add(gameToAdd);
-                var listToBeAdded = SerializeGameListToByte(currentFavorietenLijst);
-
-                currentUserFavorieten.GameList = listToBeAdded;
-                _context.Update(currentUserFavorieten);
+                //toevoegen van de een game aan de deserialized GameList
+                userFavorietenlijst.Add(gameToAdd);
+                //serializen van de nieuwe favorietenlijst
+                var newList = SerializeGameListToByte(userFavorietenlijst);
+                //assignment van de nieuwe serialized list aan de favorieten class van de user
+                userFavorieten.GameList = newList;
+                //toevoegen van de updated favorietenclass aan de db
+                _context.Update(userFavorieten);
                 await _context.SaveChangesAsync();
             }
+            //nieuwe favorietenlijst maken
             else
             {
+                //maken van een nieuwe gamelist met de toe te voegen game er in
                 List<Game> newGameList = new List<Game> { gameToAdd };
+                //serializen van de nieuwe gamelist
                 var newGameListSerialized = SerializeGameListToByte(newGameList);
                 
+                //maken van de nieuwe favorietenclass
                 Favorieten favorietenToBeAdded = new Favorieten
                 {
                     UserId = userId,
                     ApplicationUser = user,
                     GameList = newGameListSerialized
                 };
+                //toevoegen van de nieuwe favorietenclass aan de db
                 await _context.Favorieten.AddAsync(favorietenToBeAdded);
                 await _context.SaveChangesAsync();
             }
-
             return Redirect("https://localhost:44379/Games");
         }
 
+        public async Task<IActionResult> RemoveFavoriet(int? id)
+        {
+            //nullexception voor de id
+            if (id == null)
+            {
+                return NotFound();
+            }
+            //game die moet worden toegevoegd aan favorieten
+            var gameToRemove = await _context.Games
+                .FirstOrDefaultAsync(m => m.Id == id);
+            //nullexception voor de game
+            if (gameToRemove == null)
+            {
+                return NotFound();
+            }
+            //huidige user
+            var user = await _userManager.GetUserAsync(User);
+            //userId van de huidige user
+            var userId = user.Id;
+            //check (bool) om te zien of er een al een favorietenlijst bestaat van een user
+            var userExists = _context.Favorieten.Any(e => e.UserId.Equals(userId));
+
+            if (userExists)
+            {
+                //favorietenclass van de user
+                var userFavorieten = await _context.Favorieten.FindAsync(userId);
+                //favorietenlijst van de user (deserialized)
+                var userFavorietenlijst = DeserializeByteToGameList(userFavorieten.GameList);
+
+                //toevoegen van de een game aan de deserialized GameList
+                userFavorietenlijst.Remove(gameToRemove);
+                //serializen van de nieuwe favorietenlijst
+                var newList = SerializeGameListToByte(userFavorietenlijst);
+                //assignment van de nieuwe serialized list aan de favorieten class van de user
+                userFavorieten.GameList = newList;
+                //toevoegen van de updated favorietenclass aan de db
+                _context.Update(userFavorieten);
+                await _context.SaveChangesAsync();
+            }
+            //er ging iets mis met het opzoeken van de user in de favorieten
+            else
+            {
+                return NotFound();
+            }
+
+                return Redirect("https://localhost:44379/Games");
+        }
+
+        //functie waarmee de GameList wordt omgezet in een bytestring
         public static Byte[] SerializeGameListToByte(List<Game> gameList)
         {
             byte[] bytes;
@@ -89,10 +150,10 @@ namespace project_c.Controllers
                 formatter.Serialize(stream, gameList);
                 bytes = stream.ToArray();
             }
-
             return bytes;
         }
 
+        //fucntie waarmee een bytestring wordt omgezet in een GameList
         public static List<Game> DeserializeByteToGameList(Byte[] serializedList)
         {
             List<Game> gameList = null;
@@ -106,87 +167,27 @@ namespace project_c.Controllers
 
 
 
+        //// GET: Favorieten/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
+        //// POST: Favorieten/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-        // GET: Favorieten
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Favorieten/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Favorieten/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Favorieten/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Favorieten/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Favorieten/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Favorieten/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Favorieten/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction(nameof());
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }
