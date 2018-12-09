@@ -112,7 +112,7 @@ namespace project_c.Controllers
             //userId van de huidige user
             var userId = user.Id;
             //check (bool) om te zien of er een al een favorietenlijst bestaat van een user
-            var userExists = _context.Favorieten.Any(e => e.UserId.Equals(userId));
+            var userExists = await _context.Favorieten.AnyAsync(e => e.UserId.Equals(userId));
 
             if (userExists)
             {
@@ -120,9 +120,8 @@ namespace project_c.Controllers
                 var userFavorieten = await _context.Favorieten.FindAsync(userId);
                 //favorietenlijst van de user (deserialized)
                 var userFavorietenlijst = DeserializeByteToGameList(userFavorieten.GameList);
-
                 //toevoegen van de een game aan de deserialized GameList
-                userFavorietenlijst.Remove(gameToRemove);
+                userFavorietenlijst.RemoveAll(p => p.Id == id);
                 //serializen van de nieuwe favorietenlijst
                 var newList = SerializeGameListToByte(userFavorietenlijst);
                 //assignment van de nieuwe serialized list aan de favorieten class van de user
@@ -137,7 +136,7 @@ namespace project_c.Controllers
                 return NotFound();
             }
 
-                return Redirect("https://localhost:44379/Games");
+                return Redirect("https://localhost:44379/Identity/Account/Favorieten");
         }
 
         //functie waarmee de GameList wordt omgezet in een bytestring

@@ -48,7 +48,8 @@
                     </td>
                     <td>
                         <a asp-controller="Games" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-controller="ShoppingCart" asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                        <a asp-controller="ShoppingCart" asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>|
+                        <a asp-controller="Favorieten" asp-action="RemoveFavoriet" asp-controller="ShoppingCart" asp-route-id="@item.Id">Un-favoriet</a>
                     </td>
                 </tr>
             }
