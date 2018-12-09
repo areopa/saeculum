@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.Name == "admin@hotmail.com")
+{
+    <h2>Index</h2>
+    <li>Hier ziet u een overzicht.</li>
+}
+else
+{
+    <h2>Index</h2>
+    <li>U mag hier helemaal niet zijn!</li>
+}
+
+
