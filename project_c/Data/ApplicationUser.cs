@@ -22,5 +22,7 @@ namespace project_c.Data
         public DateTime BirthDate { get; set; }
         //collectie van orders die horen bij een user, wordt geïmplementeerd bij OrderHistory
         public virtual IEnumerable<Order> Orders { get; set; }
+        //bij een ApplicationUser hoort 1 Favorietenlijst
+        public virtual Favorieten Favorieten { get; set; }
     }
 }

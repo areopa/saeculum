@@ -1,0 +1,57 @@
+﻿@page
+@model IndexModel
+@using project_c.Models
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Favorieten</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Titel
+                </th>
+                <th>
+                    Genre
+                </th>
+                <th>
+                    Pegi
+                </th>
+                <th>
+                    Prijs
+                </th>
+                <th>
+                    Producer
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.GamesIdList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pegi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProducingCompany)
+                    </td>
+                    <td>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="ShoppingCart" asp-action="OrderNow" asp-controller="ShoppingCart" asp-route-id="@item.Id">Toevoegen</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
