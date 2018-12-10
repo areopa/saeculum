@@ -34,10 +34,19 @@ namespace project_c.Areas.Identity.Pages.Account.Favorieten
             var Favorieten = await _context.Favorieten
                             .FindAsync(user.Id);
 
-            var GameList = Favorieten.GameList;
 
-
-            GamesIdList = DeserializeByteToGameList(Favorieten.GameList);
+            if (Favorieten != null)
+            {
+                var GameList = Favorieten.GameList;
+                GamesIdList = DeserializeByteToGameList(Favorieten.GameList);
+            }
+            else
+            {
+                GamesIdList = new List<Game>
+                {
+                };
+            }
+            
         }
 
         public static List<Game> DeserializeByteToGameList(Byte[] serializedList)
