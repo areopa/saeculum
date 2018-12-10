@@ -22,7 +22,7 @@
                 <tr>
                     <td>@cartItem.Product.Title</td>
                     <td>@cartItem.Product.Price</td>
-                    <td>@(string.Format("{0:N0}", cartItem.Product.Price * 1))</td>
+                    <td>@(string.Format("{0:F2}", cartItem.Product.Price * 1))</td>
                     <td>
                         @Html.ActionLink("Verwijderen", "Delete", "ShoppingCart", new { id = cartItem.Product.Id }, null)
                     </td>
@@ -33,7 +33,7 @@
                 <td>
                     @{
                         List<CartItem> temp = ViewBag.Contents;
-                        var total = String.Format("{0:N0}", temp.Sum(x => x.Product.Price));
+                        var total = String.Format("{0:F2}", temp.Sum(x => x.Product.Price));
                     }
                     @total  EUR
                 </td>
