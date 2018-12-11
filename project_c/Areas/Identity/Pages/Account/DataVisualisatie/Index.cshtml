@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@using project_c
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Bestelling Data </h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datum
+            </th>
+            <th>
+                Bestellingen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders.Reverse())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @item.OrderCount
+                </td>
+            </tr>
+        }
+    </tbody>
+        
+    
+
+</table>

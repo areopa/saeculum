@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.Name == "admin@hotmail.com")
+{
+    <h2>Index</h2>
+    <li>Hier ziet u een overzicht.</li>
+
+    <li>
+        <a asp-area="Identity" asp-page="/Account/DataVisualisatie/Index" title="Index">Bestelling Data</a>
+    </li>
+}
+else
+{
+    <h2>Index</h2>
+    <li>U mag hier helemaal niet zijn!</li>
+}
+
+

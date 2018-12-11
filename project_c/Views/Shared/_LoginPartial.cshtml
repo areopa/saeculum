@@ -11,12 +11,25 @@
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
-            <li>
-                <a asp-area="Identity" asp-page="/Account/Favorieten/Index" title="Index">Favorieten</a>
-            </li>
-            <li>
-                <a asp-area="Identity" asp-page="/Account/OrderHistory/Index" title="Index">Bestelgeschiedenis</a>
-            </li>
+
+            @if (User.Identity.Name != "admin@hotmail.com")
+            {
+                <li>
+                    <a asp-area="Identity" asp-page="/Account/Favorieten/Index" title="Index">Favorieten</a>
+                </li>
+
+                <li>
+                    <a asp-area="Identity" asp-page="/Account/OrderHistory/Index" title="Index">Bestelgeschiedenis</a>
+                </li>
+            }
+
+            @if (User.Identity.Name == "admin@hotmail.com")
+            {
+                <li>
+                    <a asp-area="" asp-controller="Admin" asp-action="Index" title="Index">Admin Panel</a>
+                </li>
+            }
+
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
             </li>
