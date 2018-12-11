@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Orders)
+        @foreach (var item in Model.Orders.Reverse())
         {
             <tr>
                 <td>
