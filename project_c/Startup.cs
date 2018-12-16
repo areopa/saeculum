@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using project_c.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using project_c.Models;
 
 namespace project_c
 {
@@ -41,8 +42,13 @@ namespace project_c
                     Configuration.GetConnectionString("DefaultConnection")));
 
             //aanroepen van de identity, de current user
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<ApplicationUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options => options.Stores.MaxLengthForKeys = 128)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
@@ -53,7 +59,11 @@ namespace project_c
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IHostingEnvironment env,
+                              ApplicationDbContext context,
+                              RoleManager<ApplicationRole> roleManager,
+                              UserManager<ApplicationUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -79,6 +89,8 @@ namespace project_c
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //DummyData.Initialize();
         }
     }
 }

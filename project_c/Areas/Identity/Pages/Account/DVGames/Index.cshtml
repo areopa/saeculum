@@ -1,0 +1,28 @@
+﻿@page
+@model project_c.Areas.Identity.Pages.Account.DVGames.IndexModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Count
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Game) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameCount)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

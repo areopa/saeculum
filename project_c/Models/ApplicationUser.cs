@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using project_c.Models;
 
-
-namespace project_c.Data
+namespace project_c.Models
 {
     //extension van de standaard Identity class van de user
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser() : base() { }
         //voornaam
         [PersonalData]
         public string FirstName { get; set; }

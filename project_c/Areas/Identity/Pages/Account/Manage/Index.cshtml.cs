@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using project_c.Data;
+using project_c.Models;
 
 namespace project_c.Areas.Identity.Pages.Account.Manage
 {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using project_c.Data;
+using project_c.Models;
 
 namespace project_c.Areas.Identity.Pages.Account
 {
