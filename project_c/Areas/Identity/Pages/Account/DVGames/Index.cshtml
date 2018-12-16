@@ -14,13 +14,13 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Game) {
+@foreach (var item in Model.DefinitiveList) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GameTitle)
+                @Html.DisplayFor(modelItem => item.gameTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GameCount)
+                @Html.DisplayFor(modelItem => item.gameCount)
             </td>
         </tr>
 }

@@ -17,6 +17,21 @@ namespace project_c.Areas.Identity.Pages.Account.DVGames
         public int GameCount { get; set; }
     }
 
+    public class DefinitiveList
+    {
+        public int gameId { get; set; }
+
+        public string gameTitle { get; set; }
+
+        public string gameGenre { get; set; }
+
+        public int gamePegi { get; set; }
+
+        public decimal gamePrice { get; set; }
+
+        public int gameCount { get; set; }
+    }
+
     public class IndexModel : PageModel
     {
         private readonly project_c.Data.ApplicationDbContext _context;
@@ -28,6 +43,7 @@ namespace project_c.Areas.Identity.Pages.Account.DVGames
 
         public IList<GameListGroup> Game { get;set; }
         public IList<Game> GamesList { get; set; }
+        public IList<DefinitiveList> DefinitiveList { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -42,6 +58,17 @@ namespace project_c.Areas.Identity.Pages.Account.DVGames
                     GameCount = gameGroup.Count()
                 };
 
+            var innerJoinQuery = 
+                from gameCount in data
+                join game in _context.Games on gameCount.GameTitle equals game.Id
+                select new DefinitiveList() { gameId = game.Id,
+                             gameTitle = game.Title,
+                             gameGenre = game.Genre,
+                             gamePegi = game.Pegi,
+                             gamePrice = game.Price,
+                             gameCount = gameCount.GameCount };
+
+            DefinitiveList = await innerJoinQuery.AsNoTracking().ToListAsync();
             Game = await data.AsNoTracking().ToListAsync();
             GamesList = await _context.Games.ToListAsync();
         }
