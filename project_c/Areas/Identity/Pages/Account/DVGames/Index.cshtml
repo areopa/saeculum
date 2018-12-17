@@ -5,16 +5,16 @@
     <thead>
         <tr>
             <th>
-                Id
+                Titel
             </th>
             <th>
-                Count
+                Aantal
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.DefinitiveList) {
+@foreach (var item in Model.DefinitiveList.OrderByDescending(item => item.gameCount)) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.gameTitle)
