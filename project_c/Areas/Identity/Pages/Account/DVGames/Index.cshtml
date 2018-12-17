@@ -1,6 +1,10 @@
 ﻿@page
 @model project_c.Areas.Identity.Pages.Account.DVGames.IndexModel
 
+@{
+    ViewData["Title"] = "Meest bestelde games";
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -14,15 +18,16 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.DefinitiveList.OrderByDescending(item => item.gameCount)) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.gameTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.gameCount)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.DefinitiveList.OrderByDescending(item => item.gameCount))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gameTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gameCount)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
