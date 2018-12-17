@@ -3,7 +3,7 @@
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Games Index";
 }
 
 <h2>Games</h2>
@@ -11,6 +11,7 @@
 @if (ViewBag.IsAdmin == "true")
 {
     <a asp-action="Create" asp-controller="Games">Game toevoegen aan productbestand</a>
+    <br />
 }
 
 
@@ -20,6 +21,7 @@
         Search on title:
         <br />
         <input style="color: black" type="text" name="searchstring" value="@Model.RouteValue["searchstring"]" />
+        <br />
         <br />
         Genres:
         <br />
