@@ -7,13 +7,13 @@
 @if (User.Identity.Name == "jirowebshop@gmail.com")
 {
     <h2>Index</h2>
-    <li>Hier ziet u een overzicht.</li>
+    <p>Hier ziet u een overzicht.</p>
 
     <li>
-        <a asp-area="Identity" asp-page="/Account/DataVisualisatie/Index" title="Index">Bestelling Data</a>
+        <a asp-area="Identity" asp-page="/Account/DataVisualisatie/Index" title="Index">Bestellingen per datum</a>
     </li>
     <li>
-        <a asp-area="Identity" asp-page="/Account/DVGames/Index" title="Index">DVGames</a>
+        <a asp-area="Identity" asp-page="/Account/DVGames/Index" title="Index">Meest bestelde games</a>
     </li>
 }
 else
