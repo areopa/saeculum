@@ -19,6 +19,9 @@ namespace project_c.Data
 
             string adminId1 = "";
 
+            string role0 = "Superadmin";
+            string desc0 = "Dit is de rol van superadministrator";
+
             string role1 = "Admin";
             string desc1 = "Dit is de rol van administrator";
 
@@ -27,6 +30,10 @@ namespace project_c.Data
 
             string password = "Wachtwoord1!";
 
+            if (await roleManager.FindByNameAsync(role0) == null)
+            {
+                await roleManager.CreateAsync(new ApplicationRole(role0, desc0, DateTime.Now));
+            }
             if (await roleManager.FindByNameAsync(role1) == null)
             {
                 await roleManager.CreateAsync(new ApplicationRole(role1, desc1, DateTime.Now));
@@ -36,7 +43,7 @@ namespace project_c.Data
                 await roleManager.CreateAsync(new ApplicationRole(role2, desc2, DateTime.Now));
             }
 
-            //maken van de admin
+            //maken van de superadmin
             if (await roleManager.FindByNameAsync("jirowebshop@gmail.com") == null)
             {
                 var user = new ApplicationUser
@@ -52,9 +59,28 @@ namespace project_c.Data
                 if (result.Succeeded)
                 {
                     await userManager.AddPasswordAsync(user, password);
-                    await userManager.AddToRoleAsync(user, role1);
+                    await userManager.AddToRoleAsync(user, role0);
                 }
                 adminId1 = user.Id;
+            }
+            //maken van de ongeregistreerde user
+            if (await userManager.FindByNameAsync("donald@duck.voorbeeld") == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "ongeregistreerd@ongeregistreerd.ongeregistreerd",
+                    Email = "ongeregistreerd@ongeregistreerd.ongeregistreerd",
+                    FirstName = "Ongeregistreerd",
+                    FamilyName = "Ongeregistreerd",
+                    BirthDate = DateTime.Now
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
             }
 
             //maken van een voorbeelduser

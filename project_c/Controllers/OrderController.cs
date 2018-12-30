@@ -123,12 +123,12 @@ namespace project_c.Controllers
             //Als er geen gebruiker is, dus je bent niet ingelogd
             if (user == null)
             {
-                var randomUser = await _userManager.FindByEmailAsync("ongeregistreerd@hotmail.com");
+                var randomUser = await _userManager.FindByEmailAsync("ongeregistreerd@ongeregistreerd.ongeregistreerd");
 
                 //DEZE var moet worden veranderd naar de ID van de ongeregistreerde user. Deze user moet wel eerst worden aangemaakt handmatig!***
                 var userId = randomUser.Id;
                 //Email moet ook worden aangepast als je dat anders hebt staan in je DB
-                var userMail = "ongeregistreerd@hotmail.com";
+                var userMail = "ongeregistreerd@ongeregistreerd.ongeregistreerd";
                 //viewbag met email wordt vervangen door de ongeregistreerde email
                 ViewBag.Email = userMail;
                 //orderprijs, vanzelfsprekend
@@ -323,43 +323,43 @@ namespace project_c.Controllers
         }
 
         //Het aanmaken van een Admin Account en een ongeregistreerde gebruiker
-        [NonAction]
-        public async Task CreateAdmin()
-        {
-            //binding van de attributen voor de admin
-            DateTime value = new DateTime(1990, 1, 1);
+        //[NonAction]
+        //public async Task CreateAdmin()
+        //{
+        //    //binding van de attributen voor de admin
+        //    DateTime value = new DateTime(1990, 1, 1);
             
-            var admin = new ApplicationUser
-            {
-                FirstName = "Admin",
-                FamilyName = "VanJiro",
-                BirthDate = value,
-                UserName = "admin@hotmail.com",
-                Email = "admin@hotmail.com"
-            };
-            //Hieronder staat het wachtwoord voor de admin user ***
-            var result = await _userManager.CreateAsync(admin, "Administrator1!");
+        //    var admin = new ApplicationUser
+        //    {
+        //        FirstName = "Admin",
+        //        FamilyName = "VanJiro",
+        //        BirthDate = value,
+        //        UserName = "admin@hotmail.com",
+        //        Email = "admin@hotmail.com"
+        //    };
+        //    //Hieronder staat het wachtwoord voor de admin user ***
+        //    var result = await _userManager.CreateAsync(admin, "Administrator1!");
 
-            //binding van de attributen voor de ongeregistreerde
-            var unregistered = new ApplicationUser
-            {
-                FirstName = "Ongeregistreerde",
-                FamilyName = "Gebruiker",
-                BirthDate = value,
-                UserName = "ongeregistreerd@hotmail.com",
-                Email = "ongeregistreerd@hotmail.com"
-            };
-            //Hieronder staat het wachtwoord voor de ongeregistreerde user ***
-            var result2 = await _userManager.CreateAsync(unregistered, "Ongeregistreerd1!");
-        }
+        //    //binding van de attributen voor de ongeregistreerde
+        //    var unregistered = new ApplicationUser
+        //    {
+        //        FirstName = "Ongeregistreerde",
+        //        FamilyName = "Gebruiker",
+        //        BirthDate = value,
+        //        UserName = "ongeregistreerd@hotmail.com",
+        //        Email = "ongeregistreerd@hotmail.com"
+        //    };
+        //    //Hieronder staat het wachtwoord voor de ongeregistreerde user ***
+        //    var result2 = await _userManager.CreateAsync(unregistered, "Ongeregistreerd1!");
+        //}
 
-        //om deze functie te runnen ga je naar /order/Createmissingaccounts *** als je wordt verwezen naar 'home' dan heeft het gewerkt
-        public async Task<IActionResult> Createmissingaccounts()
-        {
-            //het uitvoeren van de createadmin functie die admin en ongeregistreerde gebruiker
-            await CreateAdmin();
-            return Redirect("https://localhost:44379/Home");
-        }
+        ////om deze functie te runnen ga je naar /order/Createmissingaccounts *** als je wordt verwezen naar 'home' dan heeft het gewerkt
+        //public async Task<IActionResult> Createmissingaccounts()
+        //{
+        //    //het uitvoeren van de createadmin functie die admin en ongeregistreerde gebruiker
+        //    await CreateAdmin();
+        //    return Redirect("https://localhost:44379/Home");
+        //}
 
     }
 }

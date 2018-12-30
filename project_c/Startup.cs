@@ -90,7 +90,7 @@ namespace project_c
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //DummyData.Initialize();
+            DummyData.Initialize(context, userManager, roleManager).Wait();
         }
     }
 }
