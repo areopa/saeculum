@@ -12,7 +12,7 @@
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
 
-            @if (User.Identity.Name != "admin@hotmail.com")
+            @if (!(User.IsInRole("Admin") || User.IsInRole("Superadmin")))
             {
                 <li>
                     <a asp-area="Identity" asp-page="/Account/Favorieten/Index" title="Index">Favorieten</a>
@@ -22,7 +22,7 @@
                 </li>
             }
 
-            @if (User.Identity.Name == "admin@hotmail.com")
+            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
             {
                 <li>
                     <a asp-area="" asp-controller="Admin" asp-action="Index" title="Index">Admin Panel</a>
