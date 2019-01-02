@@ -32,6 +32,10 @@ namespace project_c.Controllers
             return View();
         }
 
+        public IActionResult CreateAdmin()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAdmin([Bind("UserName, Email, FirstName, FamilyName, BirthDate")] ApplicationUser user)
