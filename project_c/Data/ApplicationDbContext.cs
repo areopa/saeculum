@@ -52,5 +52,8 @@ namespace project_c.Data
                 .WithOne(m => m.Favorieten)
                 .HasForeignKey<Favorieten>(ma => ma.UserId);
         }
+
+        //methode waarmee de database-model gemaakt wordt: ORM, Object Relational Mapper
+        public DbSet<project_c.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
