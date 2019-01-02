@@ -29,7 +29,6 @@ namespace project_c.Controllers
         }
 
         // GET: Games
-        
         public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
         {
             await AdminCheck();
@@ -319,19 +318,25 @@ namespace project_c.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                var userMail = await _userManager.GetEmailAsync(user);
-                if (userMail == "admin@hotmail.com")
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Superadmin"))
                 {
                     ViewBag.IsAdmin = "true";
+                    ViewBag.IsSuperAdmin = "true";
                 }
                 else
                 {
-                    ViewBag.IsAdmin = "false";
+                    if (userRoles.Contains("Admin"))
+                    {
+                        ViewBag.IsAdmin = "true";
+                        ViewBag.IsSuperAdmin = "false";
+                    }
+                    else
+                    {
+                        ViewBag.IsAdmin = "false";
+                        ViewBag.IsSuperAdmin = "false";
+                    }
                 }
-            }
-            else
-            {
-                ViewBag.IsAdmin = "false";
             }
         }
         ////checkt of een game in de favorietenlijst staat of niet
