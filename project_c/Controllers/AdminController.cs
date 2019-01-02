@@ -32,9 +32,26 @@ namespace project_c.Controllers
             return View();
         }
 
-        public IActionResult CreateAdmin()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAdmin([Bind("UserName, Email, FirstName, FamilyName, BirthDate")] ApplicationUser user)
         {
-            return View();
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddPasswordAsync(user, "Wachtwoord1!");
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
         }
+
+
     }
 }
