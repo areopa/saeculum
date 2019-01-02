@@ -50,8 +50,6 @@ namespace project_c.Areas.Identity.Pages.Account.DVGames
             IQueryable<GameListGroup> data =
                 from games in _context.GameOrder
                 group games by games.GameId into gameGroup
-
-
                 select new GameListGroup()
                 {
                     GameTitle = gameGroup.Key,
