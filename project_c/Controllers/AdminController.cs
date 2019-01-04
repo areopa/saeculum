@@ -40,12 +40,13 @@ namespace project_c.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAdmin([Bind("UserName, Email, FirstName, FamilyName, BirthDate")] ApplicationUser user)
+        public async Task<ActionResult> CreateAdmin([Bind("UserName, Email, FirstName, FamilyName, BirthDate, AccountType")] ApplicationUser user)
         {
 
             if (ModelState.IsValid)
             {
                 var result = await _userManager.CreateAsync(user);
+                user.AccountType = "Admin";
                 if (result.Succeeded)
                 {
                     await _userManager.AddPasswordAsync(user, "Wachtwoord1!");
