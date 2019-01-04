@@ -13,9 +13,9 @@ namespace project_c.Areas.Identity.Pages.Account.Gebruikers
     public class OrderDateGroup
     {
         [DataType(DataType.Date)]
-        public DateTime? OrderDate { get; set; }
+        public DateTime? UserDate { get; set; }
 
-        public int OrderCount { get; set; }
+        public int UserCount { get; set; }
     }
 
 
@@ -29,37 +29,37 @@ namespace project_c.Areas.Identity.Pages.Account.Gebruikers
             _context = context;
         }
 
-        public IList<OrderDateGroup> Orders { get; set; }
-        public string[] OrderDates { get; set; }
-        public int[] OrderCount { get; set; }
+        public IList<OrderDateGroup> Users { get; set; }
+        public string[] UserDates { get; set; }
+        public int[] UserCount { get; set; }
 
 
         public async Task OnGetAsync()
         {
             IQueryable<OrderDateGroup> data =
-                from orders in _context.Orders
-                group orders by orders.OrderDateTime.Date into dateGroup
+                from users in _context.Users
+                group users by users.AccountCreated.Date into dateGroup
                 select new OrderDateGroup()
                 {
-                    OrderDate = dateGroup.Key,
-                    OrderCount = dateGroup.Count()
+                    UserDate = dateGroup.Key,
+                    UserCount = dateGroup.Count()
                 };
 
-            Orders = await data.AsNoTracking().ToListAsync();
+            Users = await data.AsNoTracking().ToListAsync();
 
-            List<string> OrderDatesList = new List<string> { };
-            List<int> OrderCountList = new List<int> { };
+            List<string> UserDatesList = new List<string> { };
+            List<int> UserCountList = new List<int> { };
 
 
-            foreach (var item in Orders)
+            foreach (var item in Users)
             {
-                string dates = item.OrderDate.ToString();
-                int counts = item.OrderCount;
-                OrderDatesList.Add(dates);
-                OrderCountList.Add(counts);
+                string dates = item.UserDate.ToString();
+                int counts = item.UserCount;
+                UserDatesList.Add(dates);
+                UserCountList.Add(counts);
             }
-            OrderDates = OrderDatesList.ToArray();
-            OrderCount = OrderCountList.ToArray();
+            UserDates = UserDatesList.ToArray();
+            UserCount = UserCountList.ToArray();
         }
     }
 }

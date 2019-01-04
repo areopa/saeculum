@@ -11,8 +11,8 @@
         google.charts.setOnLoadCallback(drawChart)`;`
 
         function drawChart() {
-            var OrderDates = @Json.Serialize(Model.OrderDates);
-            var OrderCount = @Json.Serialize(Model.OrderCount);
+            var OrderDates = @Json.Serialize(Model.UserDates);
+            var OrderCount = @Json.Serialize(Model.UserCount);
 
             for (var i = 0; i < OrderDates.length; i++) {
                 OrderCount[i] = parseInt(OrderCount[i]);
@@ -31,7 +31,7 @@
             }
 
             var options = {
-                title: 'Aantal bestellingen',
+                title: 'Aantal nieuwe accounts',
                 curveType: 'function',
                 legend: { position: 'bottom' }
             };
@@ -44,7 +44,7 @@
 </head>
 <body>
     <div>
-        <h2>Bestellingen per datum</h2>
+        <h2>Nieuwe accounts per datum</h2>
     </div>
     <div id="curve_chart" style="width: 900px; height: 500px"></div>
     <div>
@@ -55,19 +55,19 @@
                         Datum
                     </th>
                     <th>
-                        Bestellingen
+                        Accounts
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Orders.Reverse())
+                @foreach (var item in Model.Users.Reverse())
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.OrderDate)
+                            @Html.DisplayFor(modelItem => item.UserDate)
                         </td>
                         <td>
-                            @item.OrderCount
+                            @item.UserCount
                         </td>
                     </tr>
                 }
