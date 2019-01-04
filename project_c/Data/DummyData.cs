@@ -75,7 +75,8 @@ namespace project_c.Data
                     Email = "ongeregistreerd@ongeregistreerd.ongeregistreerd",
                     FirstName = "Ongeregistreerd",
                     FamilyName = "Ongeregistreerd",
-                    BirthDate = DateTime.Now
+                    BirthDate = DateTime.Now,
+                    AccountCreated = DateTime.Now
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -95,7 +96,8 @@ namespace project_c.Data
                     Email = "donald@duck.dummy",
                     FirstName = "Donald",
                     FamilyName = "Duck",
-                    BirthDate = DateTime.Now
+                    BirthDate = new DateTime(1975, 01, 16),
+                    AccountCreated = new DateTime(2018, 11, 06)
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -114,7 +116,8 @@ namespace project_c.Data
                     Email = "dagobert@duck.voorbeeld",
                     FirstName = "Dagobert",
                     FamilyName = "Duck",
-                    BirthDate = DateTime.Now
+                    BirthDate = new DateTime(1948, 10, 11),
+                    AccountCreated = new DateTime(2018, 12, 04)
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -133,7 +136,8 @@ namespace project_c.Data
                     Email = "lara@croft.voorbeeld",
                     FirstName = "Lara",
                     FamilyName = "Croft",
-                    BirthDate = DateTime.Now
+                    BirthDate = new DateTime(1982, 10, 03),
+                    AccountCreated = new DateTime(2018, 10, 13)
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -152,7 +156,8 @@ namespace project_c.Data
                     Email = "doutzen@krous.voorbeeld",
                     FirstName = "Doutzen",
                     FamilyName = "Krous",
-                    BirthDate = DateTime.Now
+                    BirthDate = new DateTime(1992, 09, 03),
+                    AccountCreated = new DateTime(2018, 09, 03)
                 };
 
                 var result = await userManager.CreateAsync(user);

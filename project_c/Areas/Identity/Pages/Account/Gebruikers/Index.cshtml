@@ -1,4 +1,77 @@
 ﻿@page
 @model IndexModel
+@using project_c
 @{
+    ViewData["Title"] = "Mutaties gebruikersaantallen";
 }
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart)`;`
+
+        function drawChart() {
+            var OrderDates = @Json.Serialize(Model.OrderDates);
+            var OrderCount = @Json.Serialize(Model.OrderCount);
+
+            for (var i = 0; i < OrderDates.length; i++) {
+                OrderCount[i] = parseInt(OrderCount[i]);
+            }
+
+            //var data = google.visualization.arrayToDataTable();
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Datum');
+            data.addColumn('number', 'Aantal');
+
+            for (i = 0; i < OrderCount.length; i++) {
+                data.addRows([
+                    [OrderDates[i], OrderCount[i]]
+                ]);
+            }
+
+            var options = {
+                title: 'Aantal bestellingen',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Bestellingen per datum</h2>
+    </div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Datum
+                    </th>
+                    <th>
+                        Bestellingen
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders.Reverse())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @item.OrderCount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>

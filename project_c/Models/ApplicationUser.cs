@@ -19,6 +19,7 @@ namespace project_c.Models
         //geboortedatum
         [PersonalData]
         public DateTime BirthDate { get; set; }
+        public DateTime AccountCreated { get; set; }
         //collectie van orders die horen bij een user, wordt geïmplementeerd bij OrderHistory
         public virtual IEnumerable<Order> Orders { get; set; }
         //bij een ApplicationUser hoort 1 Favorietenlijst

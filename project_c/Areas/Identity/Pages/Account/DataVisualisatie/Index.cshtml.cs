@@ -14,8 +14,6 @@ using project_c;
 
 namespace project_c.Areas.Identity.Pages.Account.DataVisualisatie
 {
-
-
     public class OrderDateGroup
     {
         [DataType(DataType.Date)]
@@ -25,7 +23,7 @@ namespace project_c.Areas.Identity.Pages.Account.DataVisualisatie
     }
 
 
-public class IndexModel : PageModel
+    public class IndexModel : PageModel
     {
 
         private readonly ApplicationDbContext _context;

@@ -89,7 +89,9 @@ namespace project_c.Areas.Identity.Pages.Account
                     FamilyName = Input.FamilyName,
                     BirthDate = Input.BirthDate,
                     UserName = Input.Email,
-                    Email = Input.Email };
+                    Email = Input.Email,
+                    AccountCreated = DateTime.Now
+                };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
