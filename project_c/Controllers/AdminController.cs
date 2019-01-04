@@ -27,13 +27,15 @@ namespace project_c.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await AdminCheck();
             return View();
         }
 
-        public IActionResult CreateAdmin()
+        public async Task<IActionResult> CreateAdmin()
         {
+            await AdminCheck();
             return View();
         }
         [HttpPost]
@@ -56,6 +58,33 @@ namespace project_c.Controllers
             return View(user);
         }
 
+        [NonAction]
+        public async Task AdminCheck()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Superadmin"))
+                {
+                    ViewBag.IsAdmin = "true";
+                    ViewBag.IsSuperAdmin = "true";
+                }
+                else
+                {
+                    if (userRoles.Contains("Admin"))
+                    {
+                        ViewBag.IsAdmin = "true";
+                        ViewBag.IsSuperAdmin = "false";
+                    }
+                    else
+                    {
+                        ViewBag.IsAdmin = "false";
+                        ViewBag.IsSuperAdmin = "false";
+                    }
+                }
+            }
+        }
 
     }
 }
