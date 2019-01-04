@@ -30,14 +30,17 @@ namespace project_c.Data
 
             string password = "Wachtwoord1!";
 
+            //controleren bestaan en eventueel aanmaken rol superadmin
             if (await roleManager.FindByNameAsync(role0) == null)
             {
                 await roleManager.CreateAsync(new ApplicationRole(role0, desc0, DateTime.Now));
             }
+            //controleren bestaan en eventueel aanmaken rol admin
             if (await roleManager.FindByNameAsync(role1) == null)
             {
                 await roleManager.CreateAsync(new ApplicationRole(role1, desc1, DateTime.Now));
             }
+            //controleren bestaan en eventueel aanmaken rol gebruiker
             if (await roleManager.FindByNameAsync(role2) == null)
             {
                 await roleManager.CreateAsync(new ApplicationRole(role2, desc2, DateTime.Now));
@@ -64,7 +67,7 @@ namespace project_c.Data
                 adminId1 = user.Id;
             }
             //maken van de ongeregistreerde user
-            if (await userManager.FindByNameAsync("donald@duck.voorbeeld") == null)
+            if (await userManager.FindByNameAsync("ongeregistreerd@ongeregistreerd.ongeregistreerd") == null)
             {
                 var user = new ApplicationUser
                 {

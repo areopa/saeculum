@@ -4,34 +4,62 @@
 @{
     ViewData["Title"] = "Bestellingen per datum";
 }
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-<h2>Bestelling Data </h2>
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Sales', 'Expenses'],
+                ['2004', 1000, 400],
+                ['2005', 1170, 460],
+                ['2006', 660, 1120],
+                ['2007', 1030, 540]
+            ]);
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Datum
-            </th>
-            <th>
-                Bestellingen
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Orders.Reverse())
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
-                <td>
-                    @item.OrderCount
-                </td>
-            </tr>
+            var options = {
+                title: 'Company Performance',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
         }
-    </tbody>
-        
-    
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Bestelling Data </h2>
 
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Datum
+                    </th>
+                    <th>
+                        Bestellingen
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders.Reverse())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @item.OrderCount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+</body>
