@@ -88,5 +88,84 @@ namespace project_c.Controllers
             }
         }
 
+        public async Task<IActionResult> AddDummyOrders()
+        {
+            await AdminCheck();
+
+            var user1 = await _userManager.FindByEmailAsync("ongeregistreerd@ongeregistreerd.ongeregistreerd");
+            var user2 = await _userManager.FindByEmailAsync("donald@duck.voorbeeld");
+            var user3 = await _userManager.FindByEmailAsync("dagobert@duck.voorbeeld");
+            var user4 = await _userManager.FindByEmailAsync("lara@croft.voorbeeld");
+            var user5 = await _userManager.FindByEmailAsync("doutzen@krous.voorbeeld");
+
+            List<ApplicationUser> UserList = new List<ApplicationUser> { user1, user2, user3, user4, user5};
+            
+            Random random = new Random();
+            
+
+            foreach (var item in UserList)
+            {
+                int randomNumber = random.Next(2, 5);
+                for (int i = 0; i < randomNumber; i++)
+                {
+                    AddOrders(item);
+                }
+            }
+            return View(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async void AddOrders(ApplicationUser user)
+        {
+
+            Random random = new Random();
+            int randomNumber = random.Next(1, 1000);
+            var randPrice = random.Next(10, 60);
+            var endDate = new DateTime(2018, 09, 01);
+            var startDate = new DateTime(2019, 01, 04);
+
+            TimeSpan timeSpan = endDate - startDate;
+            TimeSpan newSpan = new TimeSpan(0, random.Next(0, (int)timeSpan.TotalMinutes), 0);
+
+            DateTime newDate = startDate + newSpan;
+
+            Order order = new Order
+            {
+                UserId = user.Id,
+                OrderDateTime = newDate,
+                OrderMail = user.Email,
+                Price = randPrice
+            };
+
+            //order wordt opgeslagen bij de ingelogde gebruiker
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            int randomNumber2 = random.Next(1, 3);
+            for (int i = 0; i < randomNumber2; i++)
+            {
+                AddGames(order);
+            }
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async void AddGames(Order order)
+        {
+            GameOrder go = new GameOrder();
+            Game product = new Game();
+
+            Random random = new Random();
+            int randomNumber = random.Next(1, 1000);
+
+            product = _context.Games.Find(_context.Games.Find(randomNumber));
+            go.Order = order;
+            go.Game = product;
+
+            _context.GameOrder.Add(go);
+            await _context.SaveChangesAsync();
+        }
     }
 }
