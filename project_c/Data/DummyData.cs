@@ -55,7 +55,8 @@ namespace project_c.Data
                     Email = "jirowebshop@gmail.com",
                     FirstName = "Jiro",
                     FamilyName = "Webshop",
-                    BirthDate = DateTime.Now
+                    BirthDate = DateTime.Now,
+                    AccountType = "Superadmin"
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -76,7 +77,8 @@ namespace project_c.Data
                     FirstName = "Ongeregistreerd",
                     FamilyName = "Ongeregistreerd",
                     BirthDate = DateTime.Now,
-                    AccountCreated = DateTime.Now
+                    AccountCreated = DateTime.Now,
+                    AccountType = "Gebruiker"
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -97,7 +99,8 @@ namespace project_c.Data
                     FirstName = "Donald",
                     FamilyName = "Duck",
                     BirthDate = new DateTime(1975, 01, 16),
-                    AccountCreated = new DateTime(2018, 11, 06)
+                    AccountCreated = new DateTime(2018, 11, 06),
+                    AccountType = "Gebruiker"
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -117,7 +120,8 @@ namespace project_c.Data
                     FirstName = "Dagobert",
                     FamilyName = "Duck",
                     BirthDate = new DateTime(1948, 10, 11),
-                    AccountCreated = new DateTime(2018, 12, 04)
+                    AccountCreated = new DateTime(2018, 12, 04),
+                    AccountType = "Gebruiker"
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -137,7 +141,8 @@ namespace project_c.Data
                     FirstName = "Lara",
                     FamilyName = "Croft",
                     BirthDate = new DateTime(1982, 10, 03),
-                    AccountCreated = new DateTime(2018, 10, 13)
+                    AccountCreated = new DateTime(2018, 10, 13),
+                    AccountType = "Gebruiker"
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -157,7 +162,8 @@ namespace project_c.Data
                     FirstName = "Doutzen",
                     FamilyName = "Krous",
                     BirthDate = new DateTime(1992, 09, 03),
-                    AccountCreated = new DateTime(2018, 09, 03)
+                    AccountCreated = new DateTime(2018, 09, 03),
+                    AccountType = "Gebruiker"
                 };
 
                 var result = await userManager.CreateAsync(user);

@@ -24,6 +24,10 @@ namespace project_c.Areas.Identity.Pages.Account.GebruikersList
         public async Task OnGetAsync()
         {
             ApplicationUser = await _context.ApplicationUser.ToListAsync();
+            foreach (var user in ApplicationUser)
+            {
+                
+            }
         }
     }
 }

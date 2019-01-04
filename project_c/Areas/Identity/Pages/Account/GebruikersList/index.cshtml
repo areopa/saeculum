@@ -20,7 +20,10 @@
                 Geboortedatum
             </th>
             <th>
-                Datum account aanmaak
+                Account aanmaak datum
+            </th>
+            <th>
+                Account type
             </th>
             <th>
                 Emailadres
@@ -44,10 +47,13 @@
                 @Html.DisplayFor(modelItem => item.AccountCreated)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.AccountType)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Delete" asp-route-id="@item.Id">Verwijderen</a>
             </td>
         </tr>
 }
