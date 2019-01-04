@@ -1,0 +1,55 @@
+﻿@page
+@model project_c.Areas.Identity.Pages.Account.GebruikersList.indexModel
+
+@{
+    ViewData["Title"] = "index";
+}
+
+<h2>Overzicht</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Voornaam
+            </th>
+            <th>
+                Achternaam
+            </th>
+            <th>
+                Geboortedatum
+            </th>
+            <th>
+                Datum account aanmaak
+            </th>
+            <th>
+                Emailadres
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ApplicationUser) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FamilyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
