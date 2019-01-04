@@ -10,8 +10,8 @@ using project_c.Data;
 namespace project_c.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181229170351_Init20181229")]
-    partial class Init20181229
+    [Migration("20190104185809_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,6 +145,10 @@ namespace project_c.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<DateTime>("AccountCreated");
+
+                    b.Property<string>("AccountType");
 
                     b.Property<DateTime>("BirthDate");
 

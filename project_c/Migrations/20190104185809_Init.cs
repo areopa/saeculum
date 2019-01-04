@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace project_c.Migrations
 {
-    public partial class Init20181229 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,7 +45,9 @@ namespace project_c.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     FamilyName = table.Column<string>(nullable: true),
-                    BirthDate = table.Column<DateTime>(nullable: false)
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    AccountCreated = table.Column<DateTime>(nullable: false),
+                    AccountType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

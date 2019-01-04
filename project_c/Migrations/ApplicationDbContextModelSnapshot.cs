@@ -146,6 +146,8 @@ namespace project_c.Migrations
 
                     b.Property<DateTime>("AccountCreated");
 
+                    b.Property<string>("AccountType");
+
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("ConcurrencyStamp")
