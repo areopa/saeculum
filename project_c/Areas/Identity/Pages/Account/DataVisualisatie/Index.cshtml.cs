@@ -36,6 +36,9 @@ public class IndexModel : PageModel
         }
 
         public IList<OrderDateGroup> Orders { get; set; }
+        public string[] OrderDates { get; set; }
+        public int[] OrderCount { get; set; }
+
 
         public async Task OnGetAsync()
         {
@@ -49,6 +52,20 @@ public class IndexModel : PageModel
                 };
 
             Orders = await data.AsNoTracking().ToListAsync();
+
+            List<string> OrderDatesList = new List<string> { };
+            List<int> OrderCountList = new List<int> { };
+
+
+            foreach (var item in Orders)
+            {
+                string dates = item.OrderDate.ToString();
+                int counts = item.OrderCount;
+                OrderDatesList.Add(dates);
+                OrderCountList.Add(counts);
+            }
+            OrderDates = OrderDatesList.ToArray();
+            OrderCount = OrderCountList.ToArray();
         }
     }
 }

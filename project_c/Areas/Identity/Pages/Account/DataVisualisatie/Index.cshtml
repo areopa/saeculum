@@ -8,19 +8,30 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart)`;`
 
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Year', 'Sales', 'Expenses'],
-                ['2004', 1000, 400],
-                ['2005', 1170, 460],
-                ['2006', 660, 1120],
-                ['2007', 1030, 540]
-            ]);
+            var OrderDates = @Json.Serialize(Model.OrderDates);
+            var OrderCount = @Json.Serialize(Model.OrderCount);
+
+            for (var i = 0; i < OrderDates.length; i++) {
+                OrderCount[i] = parseInt(OrderCount[i]);
+            }
+
+            //var data = google.visualization.arrayToDataTable();
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Datum');
+            data.addColumn('number', 'Aantal');
+
+            for (i = 0; i < OrderCount.length; i++) {
+                data.addRows([
+                    [OrderDates[i], OrderCount[i]]
+                ]);
+            }
 
             var options = {
-                title: 'Company Performance',
+                title: 'Aantal bestellingen',
                 curveType: 'function',
                 legend: { position: 'bottom' }
             };
@@ -33,8 +44,10 @@
 </head>
 <body>
     <div>
-        <h2>Bestelling Data </h2>
-
+        <h2>Bestellingen per datum</h2>
+    </div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <div>
         <table class="table">
             <thead>
                 <tr>
@@ -61,5 +74,4 @@
             </tbody>
         </table>
     </div>
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>
 </body>
