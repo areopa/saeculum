@@ -92,8 +92,8 @@ namespace project_c.Data
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "donald@duck.dummy",
-                    Email = "donald@duck.dummy",
+                    UserName = "donald@duck.voorbeeld",
+                    Email = "donald@duck.voorbeeld",
                     FirstName = "Donald",
                     FamilyName = "Duck",
                     BirthDate = new DateTime(1975, 01, 16),
