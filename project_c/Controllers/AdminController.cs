@@ -47,6 +47,7 @@ namespace project_c.Controllers
             {
                 var result = await _userManager.CreateAsync(user);
                 user.AccountType = "Admin";
+                user.UserName = user.Email;
                 if (result.Succeeded)
                 {
                     await _userManager.AddPasswordAsync(user, "Wachtwoord1!");
