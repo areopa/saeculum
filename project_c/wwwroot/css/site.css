@@ -8,6 +8,13 @@ body {
     color: white;
 }
 
+/*container styling voorpagina*/
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-row-gap: 50px;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
