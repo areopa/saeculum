@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using project_c.Data;
 using project_c.Models;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using System.Web;
 
 namespace project_c.Controllers
 {
@@ -27,6 +30,11 @@ namespace project_c.Controllers
             _context = context;
             _userManager = userManager;
         }
+
+        public const string thumbnailSourceNumber = "0";
+        public string thumbNailSourceBase = "https://localhost:44379/images/thumbnails/GAME";
+        public string thumbNailSourceEnd = ".jpg";
+        
 
         // GET: Games
         public async Task<IActionResult> Index(string searchstring, string filterGenre1, string filterGenre2, string filterGenre3, string filterGenre4, string filterGenre5, string filterGenre6, string filterGenre7, string filterGenre8, string filterGenre9, string filterGenre10, string filterGenre11, string filterGenre12, string filterGenre13, string filterGenre14, string filterGenre15, string filterGenre16, string filterGenre17, string filterGenre18, string filterPegi, string filterPegi13, string filterPegi14, string filterPegi15, string filterPegi16, string filterPegi17, string filterPegi18, int page = 1, string sortExpression = "Title")
@@ -202,8 +210,9 @@ namespace project_c.Controllers
             {
                 return NotFound();
             }
-
+            PickNextThumbnail();
             return View(game);
+            
         }
 
         public async Task<ActionResult> Create()
@@ -374,6 +383,20 @@ namespace project_c.Controllers
         private bool GameExists(int id)
         {
             return _context.Games.Any(e => e.Id == id);
+        }
+
+        [NonAction]
+        public void PickNextThumbnail()
+        {
+            string numberstring = HttpContext.Session.GetString(thumbnailSourceNumber);
+            int nextNumber = Convert.ToInt32(numberstring);
+            nextNumber++;
+            ViewBag.thumbnailSource = thumbNailSourceBase + nextNumber + thumbNailSourceEnd;
+            if (nextNumber >= 15)
+            {
+                nextNumber = 0;
+            }
+            HttpContext.Session.SetString(thumbnailSourceNumber, nextNumber.ToString());
         }
     }
 }
