@@ -21,20 +21,26 @@
             <li>
                 <a asp-area="Identity" asp-page="/Account/Gebruikers/Index" title="Index">Mutatie gebruikersaantallen</a>
             </li>
-            <li>
-                <a asp-area="Identity" asp-page="/Account/GebruikersList/Index" title="Index">Lijst van gebruikers</a>
-            </li>
+            @if (ViewBag.IsSuperadmin == "True")
+            {
+                <li>
+                    <a asp-area="Identity" asp-page="/Account/GebruikersList/Index" title="Index">Lijst van gebruikers</a>
+                </li>
+            }
         </ul>
     </div>
-    <div class="col-md-3">
-        <h3>Admin aanmaken</h3>
-        <ul>
-            <li>
-                <a asp-action="CreateAdmin" asp-controller="Admin">Adminaccount aanmaken</a>
-            </li>
-        </ul>
-    </div>
+    @if (ViewBag.IsSuperadmin == "True")
+    {
+        <div class="col-md-3">
+            <h3>Admin aanmaken</h3>
+            <ul>
+                <li>
+                    <a asp-action="CreateAdmin" asp-controller="Admin">Adminaccount aanmaken</a>
+                </li>
+            </ul>
+        </div>
 
+    }
 }
 else
 {

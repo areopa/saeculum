@@ -1,10 +1,10 @@
-﻿@model project_c.Models.ApplicationUser
+﻿@model project_c.Controllers.AdminController.InputModel
 
 @{
     ViewData["Title"] = "CreateAdmin";
 }
 
-@if (ViewBag.IsAdmin == "true")
+@if (ViewBag.IsSuperadmin == "true")
 {
     <h2>CreateAdmin</h2>
 
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-4">
             <form asp-action="CreateAdmin">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input asp-for="FirstName" class="form-control" />
@@ -30,14 +30,19 @@
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Email" class="control-label"></label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Toevoegen" class="btn btn-default" />
