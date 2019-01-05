@@ -119,7 +119,6 @@ namespace project_c.Controllers
                 var userRoles = await _userManager.GetRolesAsync(user);
                 if (userRoles.Contains("Superadmin"))
                 {
-                    ViewBag.IsAdmin = "true";
                     ViewBag.IsSuperAdmin = "true";
                 }
                 else

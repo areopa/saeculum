@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewBag.IsAdmin == "true")
+@if (ViewBag.IsAdmin == "true" || ViewBag.IsSuperAdmin == "true")
 {
     <h2>Admin Panel</h2>
     <p>Welkom bij het Admin Panel.</p>
@@ -21,7 +21,7 @@
             <li>
                 <a asp-area="Identity" asp-page="/Account/Gebruikers/Index" title="Index">Mutatie gebruikersaantallen</a>
             </li>
-            @if (ViewBag.IsSuperadmin == "True")
+            @if (ViewBag.IsSuperAdmin == "true")
             {
                 <li>
                     <a asp-area="Identity" asp-page="/Account/GebruikersList/Index" title="Index">Lijst van gebruikers</a>
@@ -29,7 +29,7 @@
             }
         </ul>
     </div>
-    @if (ViewBag.IsSuperadmin == "True")
+    @if (ViewBag.IsSuperAdmin == "true")
     {
         <div class="col-md-3">
             <h3>Admin aanmaken</h3>
