@@ -11,6 +11,7 @@
         google.charts.setOnLoadCallback(drawChart)`;`
 
         function drawChart() {
+            //var TupleArray = @Json.Serialize(Model.TupleArray);
             var OrderDates = @Json.Serialize(Model.UserDates);
             var OrderCount = @Json.Serialize(Model.UserCount);
 
@@ -24,11 +25,13 @@
             data.addColumn('string', 'Datum');
             data.addColumn('number', 'Aantal');
 
-            for (i = 0; i < OrderCount.length; i++) {
+            for (i = 0; i < OrderDates.length; i++) {
                 data.addRows([
                     [OrderDates[i], OrderCount[i]]
                 ]);
             }
+
+            data.sort([{ column: 0, asc: true }]);
 
             var options = {
                 title: 'Aantal nieuwe accounts',

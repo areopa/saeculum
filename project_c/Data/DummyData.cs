@@ -56,7 +56,8 @@ namespace project_c.Data
                     FirstName = "Jiro",
                     FamilyName = "Webshop",
                     BirthDate = DateTime.Now,
-                    AccountType = "Superadmin"
+                    AccountType = "Superadmin",
+                    AccountCreated = new DateTime(2018, 09, 15)
                 };
 
                 var result = await userManager.CreateAsync(user);
