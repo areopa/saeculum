@@ -1,6 +1,7 @@
 ﻿@model project_c.Models.MostWanted
 @{
     ViewData["Title"] = "Home Page";
+    var carousselItemList = Model.MostWantedList.OrderByDescending(x => x.gameCount <= 5).ToList();
 }
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
@@ -9,34 +10,122 @@
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
     </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/topSelling1.jpg" alt="topSelling1" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>Top Selling Item!</p>
-                <p>[GAME NAME HERE]</p>
-                <br />
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner1.jpg" alt="banner1" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>banner 1</p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.jpg" alt="banner2" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>banner2</p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.jpg" alt="banner3" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>banner3</p>
-            </div>
-        </div>
+    <div class="carousel-inner" role="listbox">                  
+        @{
+            // Eerste item in de caroussel
+            if (carousselItemList.Count() < 1)
+            {
+                <div class="item active">
+                    <img src="~/images/topSelling1.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>Top Selling Item!</p>
+                        <p>There is no data</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="item active">
+                    <img src="~/images/topSelling1.png" alt="topSelling1" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>Top Selling Item!</p>
+                        <p>@carousselItemList[0].gameTitle</p>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@carousselItemList[0].gameId">Details</a>
+                        <br />
+                    </div>
+                </div>
+            }
+            // Tweede item in de caroussel
+            if (carousselItemList.Count() < 2)
+            {
+                <div class="item">
+                    <img src="~/images/topSelling2.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>2nd Top Selling Item!</p>
+                        <p>There is no data</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="item">
+                    <img src="~/images/topSelling2.png" alt="banner1" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>2nd Top Selling Item!</p>
+                        <p>@carousselItemList[1].gameTitle</p>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@carousselItemList[1].gameId">Details</a>
+                    </div>
+                </div>
+            }
+            // Derde item in de caroussel
+            if (carousselItemList.Count() < 3)
+            {
+                <div class="item">
+                    <img src="~/images/topSelling3.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>3rd Top Selling Item!</p>
+                        <p>There is no data</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="item">
+                    <img src="~/images/topSelling3.png" alt="banner2" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>3rd Top Selling Item!</p>
+                        <p>@carousselItemList[2].gameTitle</p>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@carousselItemList[2].gameId">Details</a>
+                    </div>
+                </div>
+            }
+            // Vierde item in de caroussel
+            if (carousselItemList.Count() < 4)
+            {
+                <div class="item">
+                    <img src="~/images/topSelling4.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>4th Top Selling Item!</p>
+                        <p>There is no data</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="item">
+                    <img src="~/images/topSelling4.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>4th Top Selling Item!</p>
+                        <p>@carousselItemList[3].gameTitle</p>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@carousselItemList[3].gameId">Details</a>
+                    </div>
+                </div>
+            }
+            // Vijfde item in de caroussel
+            if (carousselItemList.Count() < 5)
+            {
+                <div class="item">
+                    <img src="~/images/topSelling5.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>5th Top Selling Item!</p>
+                        <p>There is no data</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="item">
+                    <img src="~/images/topSelling5.png" alt="banner3" class="img-responsive" />
+                    <div class="carousel-caption" role="option">
+                        <p>5th Top Selling Item!</p>
+                        <p>@carousselItemList[4].gameTitle</p>
+                        <a asp-controller="Games" asp-action="Details" asp-route-id="@carousselItemList[4].gameId">Details</a>
+                    </div>
+                </div>
+            }
+        }
     </div>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -51,18 +140,36 @@
 <div>
     <div class="grid-container">
         @{
-            var itemList = Model.MostWantedList.OrderByDescending(x => x.gameCount).ToList();
-            for (int i = 0; i < 12; i++)
+            var itemList = Model.MostWantedList.OrderByDescending(x => x.gameCount <= 12).ToList();
+            if (itemList == null)
             {
-                var item = itemList[i];
-                <div class="grid-item">
-                    @Html.DisplayFor(modelItem => item.gameTitle)<br />
-                    <img src=@ViewBag.thumbnailSource alt="image" /><br />
-                    @Html.DisplayFor(modelItem => item.gameGenre)<br />
-                    @Html.DisplayFor(modelItem => item.gamePegi)<br />
-                    € @Html.DisplayFor(modelItem => item.gamePrice) <br />
-                    <a asp-controller="Games" asp-action="Details" asp-route-id="@item.gameId">Details</a>
+                <div class="col-md-3">
+                    <h2>Geen data om te weergeven.</h2>
                 </div>
+            }
+            else
+            {
+                try
+                {
+                    for (int i = 0; i < itemList.Count(); i++)
+                    {
+                        var item = itemList[i];
+                        <div class="grid-item">
+                            @Html.DisplayFor(modelItem => item.gameTitle)<br />
+                            <img src=@ViewBag.thumbnailSource alt="image" /><br />
+                            @Html.DisplayFor(modelItem => item.gameGenre)<br />
+                            @Html.DisplayFor(modelItem => item.gamePegi)<br />
+                            € @Html.DisplayFor(modelItem => item.gamePrice) <br />
+                            <a asp-controller="Games" asp-action="Details" asp-route-id="@item.gameId">Details</a>
+                        </div>
+                    }
+                }
+                catch (ArgumentOutOfRangeException) { 
+                    <div class="col-md-3">
+                        <h2>Out of Range Error!</h2>
+                    </div>
+                }
+
             }
         }
     </div>
