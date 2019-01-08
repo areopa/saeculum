@@ -29,9 +29,9 @@ namespace project_c.Areas.Identity.Pages.Account.Gebruikers
         }
 
         public IList<OrderDateGroup> Users { get; set; }
-        public DateTime[] UserDates { get; set; }
+        public string[] UserDates { get; set; }
         public int[] UserCount { get; set; }
-        public (DateTime, int)[] TupleArray { get; set; }
+        public (string, int)[] TupleArray { get; set; }
 
 
         public async Task OnGetAsync()
@@ -44,21 +44,21 @@ namespace project_c.Areas.Identity.Pages.Account.Gebruikers
 
             Users = await data3.AsNoTracking().ToListAsync();
 
-            List<DateTime> UserDatesList = new List<DateTime> { };
+            List<string> UserDatesList = new List<string> { };
             List<int> UserCountList = new List<int> { };
-            List<(DateTime, int)> TupleList = new List<(DateTime, int)>{ };
+            List<(string, int)> TupleList = new List<(string, int)>{ };
 
 
             foreach (var item in data3)
             {
-                DateTime dates = item.UserDate;
+                string dates = item.UserDate.Day.ToString() + "." + item.UserDate.Month.ToString() + "." + item.UserDate.Year.ToString();
                 int counts = item.UserCount;
                 TupleList.Add((dates, counts));
                 UserDatesList.Add(dates);
                 UserCountList.Add(counts);
             }
 
-            TupleList.Sort((x, y) => DateTime.Compare(x.Item1, y.Item1));
+            TupleList.Sort((x, y) => string.Compare(x.Item1, y.Item1));
 
             UserDates = UserDatesList.ToArray();
             UserCount = UserCountList.ToArray();

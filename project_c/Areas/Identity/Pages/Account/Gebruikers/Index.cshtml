@@ -67,7 +67,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.UserDate)
+                            @Html.DisplayFor(modelItem => item.UserDate.Day).@Html.DisplayFor(modelItem => item.UserDate.Month).@Html.DisplayFor(modelItem => item.UserDate.Year)
                         </td>
                         <td>
                             @item.UserCount
