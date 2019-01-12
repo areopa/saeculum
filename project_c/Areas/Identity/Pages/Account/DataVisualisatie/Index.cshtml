@@ -60,16 +60,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Orders.Reverse())
+                @for (int i = Model.OrderDates.Length - 1; i >= 0; i--)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.OrderDate)
+                            @Model.OrderDates[i]
                         </td>
                         <td>
-                            @item.OrderCount
+                            @Model.OrderCount[i]
                         </td>
                     </tr>
+
+                }
+
+                @foreach (var item in Model.Orders0.Reverse())
+                {
+
                 }
             </tbody>
         </table>
