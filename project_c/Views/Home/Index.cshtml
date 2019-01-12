@@ -140,7 +140,7 @@
 <div>
     <div class="grid-container">
         @{
-            var itemList = Model.MostWantedList.OrderByDescending(x => x.gameCount <= 12).ToList();
+            var itemList = Model.MostWantedList.OrderByDescending(x => x.gameCount).ToList();
             if (itemList == null)
             {
                 <div class="col-md-3">
@@ -151,7 +151,7 @@
             {
                 try
                 {
-                    for (int i = 0; i < itemList.Count(); i++)
+                    for (int i = 0; i < 12; i++)
                     {
                         var item = itemList[i];
                         <div class="grid-item">

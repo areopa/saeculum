@@ -51,6 +51,11 @@ namespace project_c.Areas.Identity.Pages.Account.DataVisualisatie
 
             Orders = await data.AsNoTracking().ToListAsync();
 
+            var OrderedList = Orders.OrderBy(x => x.OrderDate);
+            var FirstDate = OrderedList.Min(x => x.OrderDate);
+            var LastDate = OrderedList.Max(x => x.OrderDate);
+
+
             List<string> OrderDatesList = new List<string> { };
             List<int> OrderCountList = new List<int> { };
 
