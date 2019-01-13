@@ -10,6 +10,7 @@ namespace project_c.Models
     public class DifferentEmail
     {
         //alleen de email van de form is nodig, dus die staat hier gemodelleerd
+        [Required]
         public string Email { get; set; }
     }
 }
